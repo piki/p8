@@ -25,8 +25,13 @@ CHEATS = false
 MAX_AGE = 4  # maximum number of frames a pixel can be left wrong
 @age = Hash.new(0)
 
+def usage
+	$stderr.puts File.read($0).lines[2..14].map{|line| line.gsub(/^# ?/, "")}
+	exit
+end
+
 def main
-	fail unless ARGV.size >= 4
+	usage unless ARGV.size >= 4
 	frameskip = ARGV.shift.to_i
 	res = ARGV.shift.to_i
 	@prev = [0] * (res * res)
