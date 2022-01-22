@@ -1,4 +1,14 @@
 #!/usr/bin/env ruby
+#
+# Usage:
+#   ./p8-encode <frameskip> <width> <diffenc> <files...> > output.lua
+#     <frameskip> - encode every Nth frame, for 1/N fps.
+#     <width>     - scale the frame to NxN before encoding.
+#     <diffenc>   - true|false to encode delta frames instead of keyframes
+#                   true produces smaller files for <frameskip> <= than 4 or so.
+#                   true may also currently be broken
+# Example:
+#   ./p8-encode 8 34 false ~/img/output*.png > bad-apple.lua
 
 require 'rubygems'
 require 'bundler/setup'
