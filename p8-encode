@@ -68,7 +68,7 @@ def header
 pico-8 cartridge // http://www.pico-8.com
 version 34
 __lua__
-f={
+f={"
 EOF
 end
 
@@ -82,15 +82,15 @@ def put_frame(bw, res)
 		ret = ""
 		col = 0
 		left = 0
-		while left/4 < CHARMAP.size-1 && bw[left] == @prev[left]
+		while bw[left] == @prev[left]
 			left += 1
 		end
 		left -= (left%4)
-		ret << CHARMAP[left/4]
+		ret << enc(left/4)
 		while left < bw.size
 			break if bw[left..-1] == @prev[left..-1]
 			right = left
-			while right < bw.size && bw[right] == col && right-left < CHARMAP.size-1
+			while right < bw.size && bw[right] == col
 				right += 1
 			end
 			ret << enc(right-left)
@@ -98,17 +98,16 @@ def put_frame(bw, res)
 			left = right
 		end
 	end
-	print %Q{"#{ret}",}
+	print "#{ret}#{CHARMAP[-1]}"
+	maybe_flush(ret.size+1)
 	@prev = bw
 end
 
 def enc(n)
-	fail if n >= CHARMAP.size
-	return CHARMAP[n]
-	if n >= CHARMAP.size-1
-		lo = n % (CHARMAP.size-1)
-		hi = n / (CHARMAP.size-1)
-		CHARMAP[-1] + CHARMAP[lo] + CHARMAP[hi]
+	if n >= CHARMAP.size-2
+		lo = n % (CHARMAP.size-2)
+		hi = n / (CHARMAP.size-2)
+		CHARMAP[-2] + CHARMAP[hi] + CHARMAP[lo]
 	else
 		CHARMAP[n]
 	end
@@ -142,15 +141,15 @@ def put_frame_differential(bw, res)
 		ret = ""
 		flip = 1
 		left = 0
-		while left/4 < CHARMAP.size-1 && bw[left] == @prev[left]
+		while bw[left] == @prev[left]
 			left += 1
 		end
 		left -= (left%4)
-		ret << CHARMAP[left/4]
+		ret << enc(left/4)
 		while left < bw.size
 			break if delta[left..-1].sum == 0
 			right = left
-			while right < bw.size && right-left < CHARMAP.size-1 && delta[right] == flip
+			while right < bw.size && delta[right] == flip
 				right += 1
 			end
 			ret << enc(right-left)
@@ -158,36 +157,61 @@ def put_frame_differential(bw, res)
 			left = right
 		end
 	end
-	print %Q{"#{ret}",}
+	print "#{ret}#{CHARMAP[-1]}"
+	maybe_flush(ret.size+1)
 	@prev = bw
+end
+
+@slen = 0
+def maybe_flush(len)
+	@slen += len
+	if @slen > 32000
+		print '","'
+		@slen = 0
+	end
 end
 
 def footer(frameskip, res, differential_encoding)
 	sqsize = 128/res
 	<<EOF
-}
+"}
 
-n=#f*#{frameskip}
 m={}
 
 for i=1,#{CHARMAP.size} do
 	m[sub("#{CHARMAP}",i,_)] = i-1
 end
 
-function _draw()
-	n+=1
-	if (n%#{frameskip}!=0) then return end
+s=#f+1
+function z()
+	if o>#f[s] then
+		s+=1
+		o=1
+	end
+	r=m[sub(f[s],o,_)]
+	o+=1
+	if (r==#{CHARMAP.size-1}) then return -1 end
+	if r==#{CHARMAP.size-2} then
+		o+=2
+		return m[sub(f[s],o,_)]+#{CHARMAP.size-2}*m[sub(f[s],o-1,_)]
+	end
+	return r
+end
 
-	if (n>#f*#{frameskip}) then
+function _draw()
+	if s>#f or (s==#f and o>#f[s]) then
+		n=0
+		s=1
+		o=1
 		cls()
 		music()
-		n=#{frameskip}
 	end
+	n+=1
+	if (n%#{frameskip}!=0) then return end
 	#{differential_encoding ? "c=true" : "c=0"}
-	g=n/#{frameskip}
-	p=4*m[sub(f[g],1,_)]
-	for i=2,#f[g] do
-		k=m[sub(f[g],i,_)]
+	p=4*z()
+	k=z()
+	while k!=-1 do
 		for j=1,k do
 			x=(p%#{res})*#{sqsize}
 			y=flr(p/#{res})*#{sqsize}
@@ -198,6 +222,7 @@ function _draw()
 			p+=1
 		end
 		#{differential_encoding ? "c=not c" : "c=(c+7)%14"}
+		k=z()
 	end
 end
 EOF
@@ -207,7 +232,9 @@ EOF
 # k = run-length encoding count
 # m = map from character value to 6-bit number
 # n = counter from 1..number of _draw() calls (30*duration)
-# g = counter from 1..number of frames (n/frameskip)
+# s = current string within f
+# o = offset within f[s]
+# p = pointer to output square
 end
 
 main
