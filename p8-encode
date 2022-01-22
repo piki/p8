@@ -28,8 +28,6 @@ def main
 
 	files = (0...files.size).select{|n| n%frameskip == 0}.map{|n| files[n]}
 	files.each do |fn|
-		$stderr.puts fn
-
 		canvas = ImageList.new(fn).first
 		square = [canvas.columns, canvas.rows].min
 		canvas.crop!(CenterGravity, square, square)
@@ -39,19 +37,22 @@ def main
 		canvas.each_pixel do |pixel, c, r|
 			bw << ((pixel.intensity >= QuantumRange/2) ? 1 : 0)
 		end
-#		(0...res).each do |y|
-#			$stderr.puts (0...res).map { |x|
-#				idx = y*res+x
-#				idx = (@prev[idx]<<1)+bw[idx]
+
+		$stderr.puts "\033[H\033[2J#{fn}"
+		(0...res).each do |y|
+			$stderr.puts (0...res).map { |x|
+				idx = y*res+x
+				idx = (@prev[idx]<<1)+bw[idx]
 #				" o. "[idx]
-#			}.join
-#		end
+				"X X "[idx]
+			}.join
+		end
 		if differential_encoding
 			put_frame_differential(bw, res)
 		else
 			put_frame(bw, res)
 		end
-		$stderr.puts @cheats
+		$stderr.puts @cheats if differential_encoding
 	end
 	print footer(frameskip, res, differential_encoding); exit
 end
