@@ -1,14 +1,18 @@
 #!/usr/bin/env ruby
 #
 # Usage:
-#   ./p8-encode <frameskip> <width> <diffenc> <files...> > output.lua
+#   ./p8-encode <frameskip> <width> <enc> <files...> > output.lua
 #     <frameskip> - encode every Nth frame, for 1/N fps.
 #     <width>     - scale the frame to NxN before encoding.
-#     <diffenc>   - true|false to encode delta frames instead of keyframes
-#                   true produces smaller files for <frameskip> <= than 4 or so.
-#                   true may also currently be broken
+#     <enc>       - plain|diff|age to pick an encoding
+#                    - plain encodes frames independently
+#                    - diff encodes delta frames instead of key frames
+#                    - age each pixel over time
+#                   age produces smaller files for frameskip <= 3
+#
 # Example:
-#   ./p8-encode 8 34 false ~/img/output*.png > bad-apple.lua
+#   ./p8-encode 1 16 age ~/img/output*.png > bad-apple-30fps.lua
+#   ./p8-encode 7 32 plain ~/img/output*.png > bad-apple-hires.lua
 
 require 'rubygems'
 require 'bundler/setup'
@@ -27,10 +31,13 @@ def main
 	res = ARGV.shift.to_i
 	@prev = [0] * (res * res)
 	@cheats = 0
-	differential_encoding = %w[true yes on 1].include?(ARGV.shift.downcase)
+	encoding = ARGV.shift.downcase
+	fail "bad encoding: #{encoding}" unless %w[plain diff age].include?(encoding)
 	files = ARGV
 
 	print header.chomp
+
+	frames = []
 
 	files = (0...files.size).select{|n| n%frameskip == 0}.map{|n| files[n]}
 	files.each do |fn|
@@ -53,14 +60,37 @@ def main
 				"X X "[idx]
 			}.join
 		end
-		if differential_encoding
+		if encoding == "age"
+			frames << bw
+		elsif encoding == "diff"
 			put_frame_differential(bw, res)
 		else
 			put_frame(bw, res)
 		end
-		$stderr.puts @cheats if differential_encoding && CHEATS
+		$stderr.puts "cheats: #{@cheats}" if encoding == "diff" && CHEATS
 	end
-	print footer(frameskip, res, differential_encoding).gsub("\t", "").gsub("\n\n", "\n")
+	if encoding == "age"
+		put_all_frames(frames, res)
+		check_all_frames(frames, res)
+		print minify(all_frames_footer(frameskip, res))
+	else
+		print minify(footer(frameskip, res, encoding == "diff"))
+	end
+end
+
+def minify(s)
+	s.
+		gsub("\t", "").
+		gsub("\n\n", "\n").
+		gsub(")\n", ")").
+		gsub("]\n", "]").
+		gsub("}\n", "}").
+		gsub(") ", ")").
+		gsub("] ", "]").
+		gsub("} ", "}").
+		gsub(" (", "(").
+		gsub(" [", "[").
+		gsub(" {", "{")
 end
 
 def header
@@ -73,6 +103,171 @@ EOF
 end
 
 CHARMAP=" 0123456789abcdefghijklmnopqrstuvwxyz!#%(){}[]<>+=/*:;.,~_-@$^|&?`'"
+
+def enc(n)
+	if n >= CHARMAP.size-2
+		lo = n % (CHARMAP.size-2)
+		hi = n / (CHARMAP.size-2)
+		CHARMAP[-2] + CHARMAP[hi] + CHARMAP[lo]
+	else
+		CHARMAP[n]
+	end
+end
+
+def enc_rle(s)
+	ret = ""
+	while !s.empty?
+		if s.size >= 3 && s[0...3].uniq.size == 1
+			n = s.index{|v| v!=s.first} || s.size
+			ret << "'"
+			ret << enc(n)
+			ret << enc(s.first)
+			s.shift(n)
+		else
+			ret << enc(s.shift)
+		end
+	end
+	ret
+end
+
+@slen = 0
+def maybe_flush(len)
+	@slen += len
+	if @slen > 32000
+		print '","'
+		@slen = 0
+	end
+end
+
+def put_all_frames(frames, res)
+	@s = []
+	s = []
+	age = []
+	(0...res*res).each do |i|
+		n = frames.index{|bw| bw[i] != 0}
+		age[i] = n
+		s << n
+		@s << n
+	end
+	(0...res*res).select{|i| age[i]==0}.each do |i|
+		n = frames.index{|bw| bw[i] != 1}
+		fail if n==0
+		age[i] = n
+		s << n
+		@s << n
+	end
+	s = enc_rle(s)
+	print s
+	maybe_flush(s.size)
+
+	(1...frames.size).each do |fr|
+		$stderr.print "#{fr+1}/#{frames.size}\r"
+		s = []
+		(0...res*res).each do |i|
+			age[i] -= 1
+			if age[i] == 0
+				n = frames[fr..-1].index{|bw| bw[i] != frames[fr][i]} || (frames.size-fr)
+				age[i] = n
+				s << n
+				@s << n
+			end
+		end
+		s = enc_rle(s)
+		print s
+		maybe_flush(s.size)
+	end
+	$stderr.puts
+end
+
+def check_all_frames(frames, res)
+	prev = [0] * (res*res)
+	age = (0...res*res).map { @s.shift }
+	frames.each do |fr|
+		cur = prev.clone
+		(0...res*res).each do |p|
+			if age[p] == 0
+				cur[p] = 1-prev[p]
+				age[p] = @s.shift
+			end
+			age[p] -= 1
+		end
+		if cur != fr
+			$stderr.puts "mismatch"
+			$stderr.puts "  want: #{fr.flatten.join}"
+			$stderr.puts "   got: #{cur.flatten.join}"
+			fail
+		end
+		prev = cur
+	end
+end
+
+def all_frames_footer(frameskip, res)
+	sqsize = 128/res
+	<<EOF
+"}
+
+m={}
+
+for i=1,#{CHARMAP.size} do
+	m[sub("#{CHARMAP}",i,_)]=i-1
+end
+
+s=#f+1
+q=0
+function z()
+	if q>0 then
+		q-=1
+		return v
+	end
+	if o>#f[s] then
+		s+=1
+		o=1
+	end
+	r=m[sub(f[s],o,_)]
+	o+=1
+	if r==#{CHARMAP.size-1} then
+		qq=z()-1
+		v=z()
+		q=qq
+		return v
+	end
+	if r==#{CHARMAP.size-2} then
+		o+=2
+		return m[sub(f[s],o-1,_)]+#{CHARMAP.size-2}*m[sub(f[s],o-2,_)]
+	end
+	return r
+end
+
+function _draw()
+	if s>#f or (s==#f and o>#f[s]) then
+		#{"n=0" if frameskip>1}
+		s=1
+		o=1
+		cls()
+		music()
+		age={}
+		for i=1,#{res*res} do
+			age[i]=z()
+		end
+	end
+	#{if frameskip>1
+	"
+	n+=1
+	if (n%#{frameskip}!=0) then return end
+	"
+	end}
+	for p=0,#{res*res-1} do
+		if age[p+1]==0 then
+			x=p%#{res}*#{sqsize}
+			y=p\\#{res}*#{sqsize}
+			rectfill(x,y,x+#{sqsize-1},y+#{sqsize-1},7-pget(x,y))
+			age[p+1]=z()
+		end
+		age[p+1]-=1
+	end
+end
+EOF
+end
 
 def put_frame(bw, res)
 	fail unless bw.size == res*res
@@ -101,16 +296,6 @@ def put_frame(bw, res)
 	print "#{ret}#{CHARMAP[-1]}"
 	maybe_flush(ret.size+1)
 	@prev = bw
-end
-
-def enc(n)
-	if n >= CHARMAP.size-2
-		lo = n % (CHARMAP.size-2)
-		hi = n / (CHARMAP.size-2)
-		CHARMAP[-2] + CHARMAP[hi] + CHARMAP[lo]
-	else
-		CHARMAP[n]
-	end
 end
 
 def put_frame_differential(bw, res)
@@ -160,15 +345,6 @@ def put_frame_differential(bw, res)
 	print "#{ret}#{CHARMAP[-1]}"
 	maybe_flush(ret.size+1)
 	@prev = bw
-end
-
-@slen = 0
-def maybe_flush(len)
-	@slen += len
-	if @slen > 32000
-		print '","'
-		@slen = 0
-	end
 end
 
 def footer(frameskip, res, differential_encoding)
