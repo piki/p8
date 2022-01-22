@@ -15,6 +15,12 @@ require 'bundler/setup'
 require 'RMagick'
 include Magick
 
+# set CHEATS to true to drop some individual pixels to produce smaller files
+# It reduces file size by a about 1/3, but looks pretty bad.
+CHEATS = false
+MAX_AGE = 4  # maximum number of frames a pixel can be left wrong
+@age = Hash.new(0)
+
 def main
 	fail unless ARGV.size >= 4
 	frameskip = ARGV.shift.to_i
@@ -52,7 +58,7 @@ def main
 		else
 			put_frame(bw, res)
 		end
-		$stderr.puts @cheats if differential_encoding
+		$stderr.puts @cheats if differential_encoding && CHEATS
 	end
 	print footer(frameskip, res, differential_encoding); exit
 end
@@ -108,26 +114,26 @@ def enc(n)
 	end
 end
 
-@age = Hash.new(0)
-MAX_AGE = 4
 def put_frame_differential(bw, res)
 	fail unless bw.size == res*res
-	mod = bw.clone
-	(2...bw.size-2).each do |i|
-		if @age[i] < MAX_AGE && bw[i-2..i+2] == [@prev[i-2], @prev[i-1], 1-@prev[i], @prev[i+1], @prev[i+2]]
-			mod[i] = 1-bw[i]
-			@cheats += 1
-			@age[i] += 1
-		elsif @age[i] < MAX_AGE && bw[i-2..i+2] == [1-@prev[i-2], 1-@prev[i-1], @prev[i], 1-@prev[i+1], 1-@prev[i+2]]
-			mod[i] = 1-bw[i]
-			@cheats += 1
-			@age[i] += 1
-		else
-			mod[i] = bw[i]
-			@age[i] = 0
+	if CHEATS
+		mod = bw.clone
+		(2...bw.size-2).each do |i|
+			if @age[i] < MAX_AGE && bw[i-2..i+2] == [@prev[i-2], @prev[i-1], 1-@prev[i], @prev[i+1], @prev[i+2]]
+				mod[i] = 1-bw[i]
+				@cheats += 1
+				@age[i] += 1
+			elsif @age[i] < MAX_AGE && bw[i-2..i+2] == [1-@prev[i-2], 1-@prev[i-1], @prev[i], 1-@prev[i+1], 1-@prev[i+2]]
+				mod[i] = 1-bw[i]
+				@cheats += 1
+				@age[i] += 1
+			else
+				mod[i] = bw[i]
+				@age[i] = 0
+			end
 		end
+		bw = mod
 	end
-	bw = mod
 
 	delta = (0...bw.size).map{|i| @prev[i] ^ bw[i]}
 	if bw == @prev
