@@ -1,5 +1,10 @@
 #!/usr/bin/env ruby
 #
+# Encode a directory full of PNG files, possibly extracted from a Youtube
+# video, as a pico-8 cartridge.  The input file will be center-cropped to
+# a square, and any colors will be thresholded to black-and-white.  It's
+# made for Bad Apple, which is pretty much in that format already.
+#
 # Usage:
 #   ./p8-encode <frameskip> <width> <enc> <files...> > output.lua
 #     <frameskip> - encode every Nth frame, for 1/N fps.
@@ -26,7 +31,7 @@ MAX_AGE = 4  # maximum number of frames a pixel can be left wrong
 @age = Hash.new(0)
 
 def usage
-	$stderr.puts File.read($0).lines[2..14].map{|line| line.gsub(/^# ?/, "")}
+	$stderr.puts File.read($0).lines[6..20].map{|line| line.gsub(/^# ?/, "")}
 	exit
 end
 
