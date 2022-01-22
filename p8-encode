@@ -412,9 +412,12 @@ EOF
 # k = run-length encoding count
 # m = map from character value to 6-bit number
 # n = counter from 1..number of _draw() calls (30*duration)
+#     omitted when frameskip==1
 # s = current string within f
 # o = offset within f[s]
 # p = pointer to output square
+# q = RLE bytes remaining to return from z()
+# v = RLE value to return from z()
 end
 
 main
