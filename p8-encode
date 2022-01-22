@@ -200,23 +200,27 @@ end
 
 function _draw()
 	if s>#f or (s==#f and o>#f[s]) then
-		n=0
+		#{"n=0" if frameskip>1}
 		s=1
 		o=1
 		cls()
 		music()
 	end
+	#{if frameskip>1
+	"
 	n+=1
 	if (n%#{frameskip}!=0) then return end
+	"
+	end}
 	#{differential_encoding ? "c=true" : "c=0"}
 	p=4*z()
 	k=z()
 	while k!=-1 do
 		for j=1,k do
 			x=(p%#{res})*#{sqsize}
-			y=flr(p/#{res})*#{sqsize}
+			y=(p\\#{res})*#{sqsize}
 			#{differential_encoding ? "if (c) then
-				c=bxor(7,pget(x,y))
+				c=7-pget(x,y)
 				rectfill(x,y,x+#{sqsize-1},y+#{sqsize-1},c)
 			end" : "rectfill(x,y,x+#{sqsize-1},y+#{sqsize-1},c)"}
 			p+=1
