@@ -30,7 +30,7 @@ def main
 	differential_encoding = %w[true yes on 1].include?(ARGV.shift.downcase)
 	files = ARGV
 
-	print header
+	print header.chomp
 
 	files = (0...files.size).select{|n| n%frameskip == 0}.map{|n| files[n]}
 	files.each do |fn|
@@ -60,7 +60,7 @@ def main
 		end
 		$stderr.puts @cheats if differential_encoding && CHEATS
 	end
-	print footer(frameskip, res, differential_encoding); exit
+	print footer(frameskip, res, differential_encoding).gsub("\t", "").gsub("\n\n", "\n")
 end
 
 def header
@@ -68,7 +68,7 @@ def header
 pico-8 cartridge // http://www.pico-8.com
 version 34
 __lua__
-frames={
+f={
 EOF
 end
 
@@ -167,46 +167,47 @@ def footer(frameskip, res, differential_encoding)
 	<<EOF
 }
 
-curframe=#frames*#{frameskip}
-c={}
+n=#f*#{frameskip}
+m={}
 
-for d=1,#{CHARMAP.size} do
-	c[sub("#{CHARMAP}", d, _)] = d-1
+for i=1,#{CHARMAP.size} do
+	m[sub("#{CHARMAP}",i,_)] = i-1
 end
 
 function _draw()
-	curframe+=1
-	if (curframe%#{frameskip}!=0) then return end
+	n+=1
+	if (n%#{frameskip}!=0) then return end
 
-	if (curframe>#frames*#{frameskip}) then
+	if (n>#f*#{frameskip}) then
 		cls()
 		music()
-		curframe=#{frameskip}
+		n=#{frameskip}
 	end
-	#{differential_encoding ? "change=true" : "color=0"}
-	fr=curframe/#{frameskip}
-	f=4*c[sub(frames[fr],1,_)]
-	for d=2,#frames[fr] do
-		rle=c[sub(frames[fr],d,_)]
---		if rle=="#{CHARMAP[-1]}" then
---			d+=2
---			lo=c[sub(frames[fr],d-1,_)]
---			hi=c[sub(frames[fr],d,_)]
---			rle=#{CHARMAP.size-1}*hi+lo
---		end
-		for g=1,rle do
-			sx=(f%#{res})*#{sqsize}
-			sy=flr(f/#{res})*#{sqsize}
-			#{differential_encoding ? "if (change) then
-				color=bxor(7,pget(sx,sy))
-				rectfill(sx,sy,sx+#{sqsize-1},sy+#{sqsize-1},color)
-			end" : "rectfill(sx,sy,sx+#{sqsize-1},sy+#{sqsize-1},color)"}
-			f+=1
+	#{differential_encoding ? "c=true" : "c=0"}
+	g=n/#{frameskip}
+	p=4*m[sub(f[g],1,_)]
+	for i=2,#f[g] do
+		k=m[sub(f[g],i,_)]
+		for j=1,k do
+			x=(p%#{res})*#{sqsize}
+			y=flr(p/#{res})*#{sqsize}
+			#{differential_encoding ? "if (c) then
+				c=bxor(7,pget(x,y))
+				rectfill(x,y,x+#{sqsize-1},y+#{sqsize-1},c)
+			end" : "rectfill(x,y,x+#{sqsize-1},y+#{sqsize-1},c)"}
+			p+=1
 		end
-		#{differential_encoding ? "change = not change" : "color=(color+7)%14"}
+		#{differential_encoding ? "c=not c" : "c=(c+7)%14"}
 	end
 end
 EOF
+# c = color, or change flag
+# f = frame data
+# i, j = iterators
+# k = run-length encoding count
+# m = map from character value to 6-bit number
+# n = counter from 1..number of _draw() calls (30*duration)
+# g = counter from 1..number of frames (n/frameskip)
 end
 
 main
