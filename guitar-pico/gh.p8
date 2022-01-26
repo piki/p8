@@ -143,7 +143,7 @@ function update_song()
 			p+=1
 		end
 		if p<=#notes and abs(notes[p].beat-b)<0.2 then
-			score+=50*mult()
+			score+=5*mult()
 			streak+=1
 			if streak>longest_streak then
 				longest_streak=streak
@@ -229,10 +229,10 @@ function draw_score()
 	rect(20,35,109,96,5)
 	rect(19,34,108,95,10)
 	rectfill(20,35,107,94,9)
-	cprint("score: "..score,40)
+	cprint("score: "..sfmt(score),40)
 	cprint("notes: "..notes_hit.."/"..#notes,50)
 	cprint("longest streak: "..longest_streak,60)
-	cprint("high score: "..high_score,84)
+	cprint("high score: "..sfmt(high_score),84)
 
 	pal(7,0,0)
 	pal(5,0,0)
@@ -286,7 +286,7 @@ function draw_game()
 	end
 	
 	-- draw score, multipler, and streak
-	print(score,0,90,9)
+	print(sfmt(score),0,90,9)
 	print(mult().."x",4,99,9)
 --	for i=1,xs do
 --		print(chr(127),108-1*i,113-5*i,12)
@@ -347,6 +347,14 @@ end
 
 function mult()
 	return min(4,1+streak\10)
+end
+
+function sfmt(s)
+	if s==0 then
+		return "0"
+	else
+		return s.."0"
+	end
 end
 __gfx__
 00000000000000000000000000000000000000000000000000000000000000009999999999999999999999999999999999999999999999999999999999999999
