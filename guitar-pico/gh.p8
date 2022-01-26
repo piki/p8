@@ -99,59 +99,84 @@ end
 
 function start_song(s)
 	start_time=t()
- song=s
- notep=1
- streak=0
- score=0
- for p=1,#notes do
- 	notes[p].played=false
- end
+	song=s
+	notep=1
+	streak=0
+	score=0
+	for p=1,#notes do
+		notes[p].played=false
+	end
 	menuitem(1,"quit song",function() stop(0) end)
 
 --	start_time-=62*60/tempo
 end
 
 function _update()
-	if btnp(❎) then
-		if song==-1 then
-			song=0
-	 elseif song==0 then
-		 start_song(1)
-	 elseif notep <= #notes then
-	 	local p=notep
-	 	while p<=#notes and notes[p].played do
-	 		p+=1
-	 	end
-	 	if p<=#notes then
-		 	score+=50*mult()
-		  streak+=1
-		  if streak>longest_streak then
-		  	longest_streak=streak
-		  end
-	 	 notes[p].played=true
-		 end
-	 end
- end
-
-	if song>0 then 
-	 local b = beat()
-	 -- skip notes that have passed
-	 while notep<=#notes and notes[notep].beat < b do
-	 	if notes[notep].played then
-	 		chnote(1, notes[notep].pitch)
-	 		sfx(1)
-	 	else
-	 		sfx(2)
-	 		shake=4
-	 		streak=0
-	 	end
-	 	notep += 1
-	 end
-	 
-	 if beat()>notes[#notes].beat+2 then
-	 	stop(-1)
-	 end
+	if song==-1 then
+		update_score()
+	elseif song==0 then
+		update_title()
+	else
+		update_song()
 	end
+end
+
+function update_score()
+	if btnp(❎) then
+		song=0
+	end
+end
+
+function update_title()
+	if btnp(❎) then
+		start_song(1)
+	end
+end
+
+function update_song()
+	local b = beat()
+
+	if btnp(❎) then
+		if notep <= #notes then
+		local p=notep
+		while p<=#notes and notes[p].played do
+			p+=1
+		end
+		if p<=#notes and abs(notes[p].beat-b)<0.2 then
+			score+=50*mult()
+			streak+=1
+			if streak>longest_streak then
+				longest_streak=streak
+			end
+			notes[p].played=true
+			else
+				wrong_note()
+			end
+		else
+			wrong_note()
+		end
+	end
+
+	-- skip notes that have passed
+	while notep<=#notes and notes[notep].beat < b-0.2 do
+		if notes[notep].played then
+			chnote(1, notes[notep].pitch)
+			sfx(1)
+		else
+			wrong_note()
+		end
+		notep += 1
+	end
+
+	if beat()>notes[#notes].beat+2 then
+		stop(-1)
+	end
+end
+
+function wrong_note()
+	sfx(2)
+	shake=4
+	streak=0
 end
 
 function stop(s)
@@ -170,18 +195,18 @@ function beat()
 end
 
 function _draw()
- if song==0 then
-  draw_title()
- elseif song==-1 then
- 	draw_score()
- else
-  draw_game()
- end
+	if song==0 then
+		draw_title()
+	elseif song==-1 then
+		draw_score()
+	else
+		draw_game()
+	end
 end
 
 function draw_title()
 	cls()
- map()
+	map()
 	chnote(1,26)
 end
 
@@ -196,7 +221,7 @@ function draw_score()
 	local star_req={0.5,0.7,0.8,0.9,1}
 	stars=0
 	for r in all(star_req) do
-		if notes_hit/#notes>r then
+		if notes_hit/#notes>=r then
 			stars+=1
 		end
 	end
@@ -238,8 +263,8 @@ end
 
 color={11,8,10,12,9,3,2,4,1,4}
 function draw_game()
- cls()
- if shake>0 then
+	cls()
+	if shake>0 then
 		camera(rnd(2*shake)-shake,rnd(2*shake)-shake)
 		shake-=1
 	else
@@ -247,10 +272,10 @@ function draw_game()
 	end
 	
 	-- draw strings and pots
- for i=0,4 do
+	for i=0,4 do
 		line(45.5+9*i,20,29.4+17*i,117,13)
 		line(46.5+9*i,20,30.4+17*i,117,5)
-	 ovalfill(22+17*i,115,37+17*i,120,color[i+1])
+		ovalfill(22+17*i,115,37+17*i,120,color[i+1])
 		oval(24+17*i,116,35+17*i,119,color[i+6])
 	end
 	
@@ -272,24 +297,29 @@ function draw_game()
 	-- draw upcoming beats
 	local b=beat()
 	for bb=ceil(b),b+5 do
- 	local y=ymap(bb-b)
- 	if y<111 then
-	 	local x=xmap(y,0)
-	 	local f=fmap(y)-0.25
+		local y=ymap(bb-b)
+		if y<111 then
+		local x=xmap(y,0)
+		local f=fmap(y)-0.25
 			line(x,y+f*5,128-x,y+f*5,5)
 		end
 	end
 
 	-- draw upcoming notes
 	local p=notep
- while p<=#notes and notes[p].beat < b+5 do
- 	local y=ymap(notes[p].beat-b)
- 	local f=fmap(y)
- 	local x=xmap(y,notes[p].string)
+	while p<=#notes and notes[p].beat < b+5 do
+		local y=ymap(notes[p].beat-b)
+		local f=fmap(y)
+		local x=xmap(y,notes[p].string)
 
-	 ovalfill(x-f*7.5,y,x+f*7.5,y+f*5,color[notes[p].string+1])
- 	p += 1
- end
+		if notes[p].played then
+			col=7
+		else
+			col=color[notes[p].string+1]
+		end
+		ovalfill(x-f*7.5,y,x+f*7.5,y+f*5,col)
+		p += 1
+	end
 end
 
 function fmap(y)
