@@ -108,7 +108,7 @@ function start_song(s)
  end
 	menuitem(1,"quit song",function() stop(0) end)
 
-	start_time-=62*60/tempo
+--	start_time-=62*60/tempo
 end
 
 function _update()
@@ -194,7 +194,7 @@ function draw_score()
 	end
 	
 	local star_req={0.5,0.7,0.8,0.9,1}
-	stars=2
+	stars=0
 	for r in all(star_req) do
 		if notes_hit/#notes>r then
 			stars+=1
