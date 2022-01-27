@@ -125,6 +125,8 @@ function _init()
 			end
 		end
 	)
+	poke(0x5f5c, 255) -- never repeat
+	poke(0x5f2d, 1)   -- keyboard
 end
 
 function start_song(_song)
@@ -171,30 +173,26 @@ function update_title()
 end
 
 function update_song()
-	local b = beat()
+	b=beat()
 	if flr(b)!=lastbeat then
 		sfx(3)
 		lastbeat=flr(b)
 	end
 
 	if btnp(❎) then
-		if notep <= #s().notes then
-		local p=notep
-		while p<=#s().notes and s().notes[p].played do
-			p+=1
-		end
-		if p<=#s().notes and abs(s().notes[p].beat-b)<0.2 then
-			score+=5*mult()
-			streak+=1
-			if streak>longest_streak then
-				longest_streak=streak
-			end
-			s().notes[p].played=true
-			else
-				wrong_note()
-			end
+		if notep<#s().notes then
+			k=s().notes[notep].string
 		else
-			wrong_note()
+			k=1
+		end
+		handle_key(k)
+	end
+
+	while stat(30) do
+		local k=stat(31)
+		k=tonum(k)
+		if k!=nil and k>=1 and k<=5 then
+			handle_key(k-1)
 		end
 	end
 
@@ -216,10 +214,53 @@ function update_song()
 	end
 end
 
-function wrong_note()
+function handle_key(k)
+	if notep > #s().notes then
+		wrong_note("past end")
+		return
+	end
+
+	-- skip already-played notes
+	local p=notep
+	while p<=#s().notes and s().notes[p].played do
+		p+=1
+	end
+
+	if p>#s().notes then
+		wrong_note("all remaining notes played")
+		return
+	end
+
+	-- search this chord to find an unplayed, matching string
+	local cur=s().notes[p].beat	
+	while p<=#s().notes and s().notes[p].beat==cur and (s().notes[p].string!=k or s().notes[p].played) do
+		p+=1
+	end
+
+	if p>#s().notes or s().notes[p].beat>cur then
+		wrong_note("not in chord")
+		return
+	end
+	
+	if abs(s().notes[p].beat-b)>0.2 then
+		wrong_note("bad timing: "..(s().notes[p].beat-b))
+		return
+	end
+
+	score+=5*mult()
+	wnmsg=nil
+	streak+=1
+	if streak>longest_streak then
+		longest_streak=streak
+	end
+	s().notes[p].played=true
+end
+
+function wrong_note(msg)
 	sfx(2)
 	shake=4
 	streak=0
+	wnmsg=msg
 end
 
 function stop(_screen)
