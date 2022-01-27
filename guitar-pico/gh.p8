@@ -146,7 +146,7 @@ function start_song(_song)
 --	start_time-=62*60/s().tempo
 end
 
-function _update()
+function _update60()
 	if screen=="score" then
 		update_score()
 	elseif screen=="title" then
