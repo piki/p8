@@ -239,7 +239,7 @@ function _draw()
 	elseif screen=="score" then
 		draw_score()
 	else
-		draw_game()
+		draw_song()
 	end
 end
 
@@ -316,7 +316,7 @@ function lprint(str,x,y)
 end
 
 color={11,8,10,12,9,3,2,4,1,4}
-function draw_game()
+function draw_song()
 	cls()
 	if shake>0 then
 		camera(rnd(2*shake)-shake,rnd(2*shake)-shake)
