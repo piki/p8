@@ -1,0 +1,109 @@
+#!/usr/bin/ruby
+
+# LENGTH_MAP must have fewer than 20 elements in it
+LENGTH_MAP = [ 0, 1, 2, 3, 4, 3.5, 2.5, 1.5, 0.5, 0.75, 0.25, 0.125, 0.6667, 0.3333 ]
+CHARMAP = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!#%(){}[]<>+=/*:;.,~_-@$^|&?`' "
+INSTRUMENT_MAP = [ :guitar, :bass, :drums ]
+class Note < Struct.new(:beat, :pitch, :instrument, :string, :lineno)
+	def pack(prev)
+		fail "line #{lineno}: unknown instrument #{instrument}" unless INSTRUMENT_MAP.index(instrument)
+		fail "line #{lineno}: pitch out of range #{pitch}" unless pitch >= 0 && pitch <= 61
+		lm = LENGTH_MAP.index{|n| (beat-prev-n).abs < 0.001}
+		fail "line #{lineno}: unexpected beat offset #{beat-prev} #{self.inspect}" unless lm
+		fail "line #{lineno}: only guitars can play strings: #{inspect}" if instrument!=:guitar && !string.nil? 
+		fail "line #{lineno}: every guitar note must be played: #{inspect}" if instrument==:guitar && string.nil? 
+		n = ((instrument == :guitar) ? (string-1) : (INSTRUMENT_MAP.index(instrument)+4)) +
+			7*pitch +
+			7*62*lm
+		fail "too big to encode: #{n}" unless n < CHARMAP.size*CHARMAP.size
+
+		return CHARMAP[n/CHARMAP.size] + CHARMAP[n%CHARMAP.size], beat
+	end
+end
+
+def main
+	notes = read(ARGF)
+	notes.sort_by!{|n| 1000*n.beat + n.pitch}
+	#notes.each {|n| p n}
+
+	polyphony = 0
+	beat = -1
+	notes.each do |n|
+		if n.beat == beat
+			polyphony += 1
+			if polyphony > 4
+				puts "too much polyphony=#{polyphony} on #{n}"
+				puts notes.select{|nn| nn.beat==beat}
+				fail
+			end
+		else
+			polyphony = 1
+			beat = n.beat
+		end
+	end
+		
+	beat = 0
+	print '"'
+	notes.each do |n|
+		s, beat = n.pack(beat)
+		print s
+		#puts " = #{n.inspect}"
+	end
+	puts '"'
+end
+
+def read(fp)
+	beat = 0
+	octave = 2
+	ret = []
+	lineno = 0
+	instrument = nil
+	fp.each_line do |line|
+		lineno += 1
+		beat = beat.round if (beat-beat.round).abs < 0.0001
+
+		line.chomp!
+		line.gsub!(/(?<![a-g])#.*$/i, '')
+		line.strip!
+		if line.empty?
+			fail "line #{lineno}: beat #{beat} is not an integer" unless beat==beat.floor
+			#fail unless beat%4==0
+			next
+		end
+
+		case line
+			when /^\[(.*)\]$/
+				instrument = $1.downcase.to_sym
+				beat = 0
+			when /^((?:[a-g][-+b#s]?[0-5]?,)*[a-g][-+b#s]?[0-5]?) \s+ ([0-9](?:\.[0-9]+)?) (?:\s+ ((?:[1-5],)*[1-5]))?$/xi
+				notes, length, strings = $1.split(','), $2.to_f, ($3||"").split(',').map(&:to_i)
+				notes.each do |note|
+					if note =~ /^(.*?)([0-5])$/
+						note = $1
+						octave = $2.to_i
+					end
+					fail "no instrument" unless instrument
+					ret << Note.new(beat, get_pitch(note.downcase, octave), instrument, strings.shift, lineno)
+				end
+				beat += length
+			when /^r \s+ ([0-9](?:\.[0-9])?)$/xi
+				length = $1.to_f
+				beat += length
+			else
+				fail "line #{lineno}: invalid '#{line}'"
+		end
+	end
+	ret
+end
+
+PITCH = { 'c'=>0, 'd'=>2, 'e'=>4, 'f'=>5, 'g'=>7, 'a'=>9, 'b'=>11 }
+PITCHMOD = { '-'=>-1, 'b'=>-1, '+'=>1, 's'=>1, '#'=>1, nil=>0 }
+def get_pitch(note, octave)
+	if note =~ /([a-g])(.)?/
+		PITCH[$1] + PITCHMOD[$2] + 12*octave
+	else
+		fail "invalid note '#{note}'"
+	end
+end
+
+main
