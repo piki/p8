@@ -683,8 +683,8 @@ function start_song(_song)
 	score=0
 	longest_streak=0
 	high_score=dget(s().hsidx)
-	for p=1,#s().notes do
-		s().notes[p].played=false
+	for n in all(s().notes) do
+		n.played=(n.string>5)
 	end
 	menuitem(1,"quit song",function() stop("title") end)
 	menuitem(2,"restart song",function() stop("title") start_song(song) end)
@@ -852,16 +852,20 @@ end
 
 function draw_score()
 	local notes_hit=0
-	for p=1,#s().notes do
-		if s().notes[p].played then
-			notes_hit+=1
+	local notes_total=0
+	for n in all(s().notes) do
+		if n.string<6 then
+			notes_total+=1
+			if n.played then
+				notes_hit+=1
+			end
 		end
 	end
 
 	local star_req={0.5,0.7,0.8,0.9,1}
 	stars=0
 	for r in all(star_req) do
-		if notes_hit/#s().notes>=r then
+		if notes_hit/notes_total>=r then
 			stars+=1
 		end
 	end
@@ -870,7 +874,7 @@ function draw_score()
 	rect(19,34,108,95,10)
 	rectfill(20,35,107,94,9)
 	cprint("score: "..sfmt(score),40)
-	cprint("notes: "..notes_hit.."/"..#s().notes,50)
+	cprint("notes: "..notes_hit.."/"..notes_total,50)
 	cprint("longest streak: "..longest_streak,60)
 	cprint("high score: "..sfmt(high_score),84)
 
@@ -954,16 +958,13 @@ function draw_song()
 	-- draw upcoming notes
 	local p=notep
 	while p<=#s().notes and s().notes[p].beat < b+5 do
-		local y=ymap(s().notes[p].beat-b)
-		local f=fmap(y)
-		local x=xmap(y,s().notes[p].string-1)
-
-		if s().notes[p].played then
-			col=7
-		else
+		if not s().notes[p].played then
+			local y=ymap(s().notes[p].beat-b)
+			local f=fmap(y)
+			local x=xmap(y,s().notes[p].string-1)
 			col=color[s().notes[p].string]
+			ovalfill(x-f*7.5,y,x+f*7.5,y+f*5,col)
 		end
-		ovalfill(x-f*7.5,y,x+f*7.5,y+f*5,col)
 		p += 1
 	end
 end
