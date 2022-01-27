@@ -764,7 +764,7 @@ shake=0
 
 function _init()
 	cartdata("guitarpico")
-	menuitem(2,"reset scores",
+	menuitem(3,"reset scores",
 		function()
 			for i=1,#songs do
 				dset(songs[i].hsidx,0)
@@ -788,6 +788,7 @@ function start_song(_song)
 		s().notes[p].played=false
 	end
 	menuitem(1,"quit song",function() stop("title") end)
+	menuitem(2,"restart song",function() stop("title") start_song(song) end)
 
 --	start_time-=62*60/s().tempo
 end
@@ -914,6 +915,7 @@ function stop(_screen)
 	sfx(-1)
 	camera()
 	menuitem(1)
+	menuitem(2)
 	if score > high_score then
 		high_score = score
 		dset(s().hsidx, high_score)
