@@ -1,7 +1,7 @@
 pico-8 cartridge // http://www.pico-8.com
 version 34
 __lua__
-song=0
+screen="title"
 streak=0
 score=0
 longest_streak=0
@@ -14,7 +14,7 @@ function n(b,p,s)
 		played=false
 	}
 end
-notes={
+notes1={
 	n(0,40,4),
 	n(1,35,1),
 	n(1.5,36,2),
@@ -87,34 +87,69 @@ notes={
 	n(60,32,3),
 }
 
+notes2={
+	n(0,24,0),
+	n(1,26,1),
+	n(2,28,2),
+	n(3,29,3),
+	n(4,31,4),
+	n(6,24,0),
+	n(6,28,2),
+	n(6,31,4),
+}
+
+songs={
+	{
+		title="tetris theme",
+		notes=notes1,
+		tempo=120,
+		hsidx=0
+	},
+	{
+		title="chords",
+		notes=notes2,
+		tempo=180,
+		hsidx=1
+	}
+}
+function s()
+	return songs[song]
+end
+
 notep=1
 shake=0
 
-tempo=120
-
 function _init()
 	cartdata("guitarpico")
-	high_score=dget(0)
+	menuitem(2,"reset scores",
+		function()
+			for i=1,#songs do
+				dset(songs[i].hsidx,0)
+			end
+		end
+	)
 end
 
-function start_song(s)
+function start_song(_song)
 	start_time=t()
-	song=s
+	song=_song
+	screen="song"
 	notep=1
 	streak=0
 	score=0
-	for p=1,#notes do
-		notes[p].played=false
+	high_score=dget(s().hsidx)
+	for p=1,#s().notes do
+		s().notes[p].played=false
 	end
-	menuitem(1,"quit song",function() stop(0) end)
+	menuitem(1,"quit song",function() stop("title") end)
 
---	start_time-=62*60/tempo
+--	start_time-=62*60/s().tempo
 end
 
 function _update()
-	if song==-1 then
+	if screen=="score" then
 		update_score()
-	elseif song==0 then
+	elseif screen=="title" then
 		update_title()
 	else
 		update_song()
@@ -123,13 +158,17 @@ end
 
 function update_score()
 	if btnp(❎) then
-		song=0
+		screen="title"
 	end
 end
 
 function update_title()
 	if btnp(❎) then
-		start_song(1)
+		start_song(songsel)
+	elseif btnp(⬇️) then
+		songsel=min(songsel+1,#songs)
+	elseif btnp(⬆️) then
+		songsel=max(songsel-1,1)
 	end
 end
 
@@ -137,18 +176,18 @@ function update_song()
 	local b = beat()
 
 	if btnp(❎) then
-		if notep <= #notes then
+		if notep <= #s().notes then
 		local p=notep
-		while p<=#notes and notes[p].played do
+		while p<=#s().notes and s().notes[p].played do
 			p+=1
 		end
-		if p<=#notes and abs(notes[p].beat-b)<0.2 then
+		if p<=#s().notes and abs(s().notes[p].beat-b)<0.2 then
 			score+=5*mult()
 			streak+=1
 			if streak>longest_streak then
 				longest_streak=streak
 			end
-			notes[p].played=true
+			s().notes[p].played=true
 			else
 				wrong_note()
 			end
@@ -158,9 +197,9 @@ function update_song()
 	end
 
 	-- skip notes that have passed
-	while notep<=#notes and notes[notep].beat < b-0.2 do
-		if notes[notep].played then
-			chnote(1, notes[notep].pitch)
+	while notep<=#s().notes and s().notes[notep].beat < b-0.2 do
+		if s().notes[notep].played then
+			chnote(1, s().notes[notep].pitch)
 			sfx(1)
 		else
 			wrong_note()
@@ -168,8 +207,8 @@ function update_song()
 		notep += 1
 	end
 
-	if beat()>notes[#notes].beat+2 then
-		stop(-1)
+	if beat()>s().notes[#s().notes].beat+2 then
+		stop("score")
 	end
 end
 
@@ -179,41 +218,51 @@ function wrong_note()
 	streak=0
 end
 
-function stop(s)
-	song=s
+function stop(_screen)
+	screen=_screen
 	sfx(-1)
 	camera()
 	menuitem(1)
 	if score > high_score then
 		high_score = score
-		dset(0, high_score)
+		dset(s().hsidx, high_score)
 	end
 end
 
 function beat()
-	return (t()-start_time)*tempo/60-4
+	return (t()-start_time)*s().tempo/60-4
 end
 
 function _draw()
-	if song==0 then
+	if screen=="title" then
 		draw_title()
-	elseif song==-1 then
+	elseif screen=="score" then
 		draw_score()
 	else
 		draw_game()
 	end
 end
 
+songsel=1
 function draw_title()
 	cls()
 	map()
 	chnote(1,26)
+	for i=1,#songs do
+		lprint(songs[i].title,40,90+10*i)
+	end
+
+	pal(7,0,0)
+	pal(13,0,0)
+	spr(0,30,89+10*songsel)
+	pal()
+	spr(0,29,88+10*songsel)
 end
 
 function draw_score()
 	local notes_hit=0
-	for p=1,#notes do
-		if notes[p].played then
+	for p=1,#s().notes do
+		if s().notes[p].played then
 			notes_hit+=1
 		end
 	end
@@ -221,7 +270,7 @@ function draw_score()
 	local star_req={0.5,0.7,0.8,0.9,1}
 	stars=0
 	for r in all(star_req) do
-		if notes_hit/#notes>=r then
+		if notes_hit/#s().notes>=r then
 			stars+=1
 		end
 	end
@@ -230,12 +279,12 @@ function draw_score()
 	rect(19,34,108,95,10)
 	rectfill(20,35,107,94,9)
 	cprint("score: "..sfmt(score),40)
-	cprint("notes: "..notes_hit.."/"..#notes,50)
+	cprint("notes: "..notes_hit.."/"..#s().notes,50)
 	cprint("longest streak: "..longest_streak,60)
 	cprint("high score: "..sfmt(high_score),84)
 
 	pal(7,0,0)
-	pal(5,0,0)
+	pal(13,0,0)
 	for p=0,4 do
 		spr(0,39+p*10,71)
 	end
@@ -246,19 +295,24 @@ function draw_score()
 	end
 end
 
-function cprint(s,y)
-	local w=print(s,0,-20)
+function cprint(str,y)
+	local w=print(str,0,-20)
+	lprint(str,63-w/2,y)
+	return 63-w/2
+end
+
+function lprint(str,x,y)
 	for i=0,2 do
 		for j=0,2 do
-			print(s,63-w/2+i,y+j,0)
+			print(str,x+i,y+j,0)
 		end
 	end
 	for i=-1,1 do
 		for j=-1,1 do
-			print(s,63-w/2+i,y+j,5)
+			print(str,x+i,y+j,13)
 		end
 	end
-	print(s,63-w/2,y,7)
+	print(str,x,y,7)
 end
 
 color={11,8,10,12,9,3,2,4,1,4}
@@ -307,15 +361,15 @@ function draw_game()
 
 	-- draw upcoming notes
 	local p=notep
-	while p<=#notes and notes[p].beat < b+5 do
-		local y=ymap(notes[p].beat-b)
+	while p<=#s().notes and s().notes[p].beat < b+5 do
+		local y=ymap(s().notes[p].beat-b)
 		local f=fmap(y)
-		local x=xmap(y,notes[p].string)
+		local x=xmap(y,s().notes[p].string)
 
-		if notes[p].played then
+		if s().notes[p].played then
 			col=7
 		else
-			col=color[notes[p].string+1]
+			col=color[s().notes[p].string+1]
 		end
 		ovalfill(x-f*7.5,y,x+f*7.5,y+f*5,col)
 		p += 1
@@ -349,22 +403,22 @@ function mult()
 	return min(4,1+streak\10)
 end
 
-function sfmt(s)
-	if s==0 then
+function sfmt(str)
+	if str==0 then
 		return "0"
 	else
-		return s.."0"
+		return str.."0"
 	end
 end
 __gfx__
 00000000000000000000000000000000000000000000000000000000000000009999999999999999999999999999999999999999999999999999999999999999
-05555500000000000000000000000000000000000000000000000000000000009999999999999999999999999999999999999999999999999999999999999999
-57575750000000000000000000000000000000000000000000000000000000009999999999d99999999999999999999999999999999999999999999999999999
-5577755000000000000000000000000000000000000000000000000000000000999999999d0d9999999999999999999999999999999999999999999999999999
-055755000000000000000000000000000000000000000000000000000000000099ddddddd0d0ddddddd999999999999999999999999999999999999999999999
-557775500000000000000000000000000000000000000000000000000000000099d000000d6d0000000d99999999999999999999999999999999999999999999
-575757500000000000000000000000000000000000000000000000000000000099d0d66667777776d0d999999900000000000009090000000d99999999999999
-055555000000000000000000000000000000000000000000000000000000000099d0d6777dd7776d0d999999900dddddddddddd0d0666666d00d999999999999
+0ddddd00000000000000000000000000000000000000000000000000000000009999999999999999999999999999999999999999999999999999999999999999
+d7d7d7d0000000000000000000000000000000000000000000000000000000009999999999d99999999999999999999999999999999999999999999999999999
+dd777dd000000000000000000000000000000000000000000000000000000000999999999d0d9999999999999999999999999999999999999999999999999999
+0dd7dd000000000000000000000000000000000000000000000000000000000099ddddddd0d0ddddddd999999999999999999999999999999999999999999999
+dd777dd00000000000000000000000000000000000000000000000000000000099d000000d6d0000000d99999999999999999999999999999999999999999999
+d7d7d7d00000000000000000000000000000000000000000000000000000000099d0d66667777776d0d999999900000000000009090000000d99999999999999
+0ddddd000000000000000000000000000000000000000000000000000000000099d0d6777dd7776d0d999999900dddddddddddd0d0666666d00d999999999999
 000000000000000000000000000000000000000000000000000000000000000099d0d677d007776d0000dddd00d6666766666d0d7d06776677d0d99999999999
 000000000000000000000000000000000000000000000000000000000000000099d0d677d007776d666d0000000000676dddd0d777d06760d67d099999999999
 000000000000000000000000000000000000000000000000000000000000000099d0d677d007776d677d0d6660ddd0676d000d7d76d0676006760d9999999999
