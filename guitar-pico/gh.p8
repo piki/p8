@@ -196,14 +196,16 @@ function update_song()
 		end
 	end
 
-	-- skip notes that have passed
-	while notep<=#s().notes and s().notes[notep].beat < b-0.2 do
-		if s().notes[notep].played then
-			chnote(1, s().notes[notep].pitch)
-			sfx(1)
-		else
-			wrong_note()
-		end
+	-- sound played notes that have passed
+	while notep<=#s().notes and s().notes[notep].beat<b and s().notes[notep].played do
+		chnote(1, s().notes[notep].pitch)
+		sfx(1)
+		notep+=1
+	end
+
+	-- drop missed notes that are too far passed
+	while notep<=#s().notes and s().notes[notep].beat<b-0.2 do
+		wrong_note()
 		notep += 1
 	end
 
