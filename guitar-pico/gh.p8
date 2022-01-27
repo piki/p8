@@ -2,9 +2,6 @@ pico-8 cartridge // http://www.pico-8.com
 version 34
 __lua__
 screen="title"
-streak=0
-score=0
-longest_streak=0
 
 function n(b,p,s)
 	return {
@@ -137,6 +134,7 @@ function start_song(_song)
 	notep=1
 	streak=0
 	score=0
+	longest_streak=0
 	high_score=dget(s().hsidx)
 	for p=1,#s().notes do
 		s().notes[p].played=false
