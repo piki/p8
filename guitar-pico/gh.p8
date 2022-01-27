@@ -11,136 +11,6 @@ function n(b,p,s)
 		played=false
 	}
 end
-notes1={
-	n(0,40,5),
-	n(1,35,2),
-	n(1.5,36,3),
-	n(2,38,4),
-	n(3,36,3),
-	n(3.5,35,2),
-
-	n(4,33,1),
-	n(5,33,1),
-	n(5.5,36,3),
-	n(6,40,5),
-	n(7,38,4),
-	n(7.5,36,3),
-
-	n(8,35,2),
-	n(9,35,2),
-	n(9.5,36,3),
-	n(10,38,4),
-	n(11,40,5),
-
-	n(12,36,3),
-	n(13,33,1),
-	n(14,33,1),
-
-	n(16.5,38,1),
-	n(17.5,41,3),
-	n(18,45,5),
-	n(19,43,4),
-	n(19.5,41,3),
-
-	n(20,40,2),
-	n(21.5,36,1),
-	n(22,40,5),
-	n(23,38,4),
-	n(23.5,36,3),
-
-	n(24,35,2),
-	n(25,35,2),
-	n(25.5,36,3),
-	n(26,38,4),
-	n(27,40,5),
-
-	n(28,36,3),
-	n(29,33,1),
-	n(30,33,1),
-
-	n(32,28,5),
-	n(34,24,3),
-
-	n(36,26,4),
-	n(38,23,2),
-
-	n(40,24,3),
-	n(42,21,1),
-
-	n(44,20,2),
-	n(46,23,4),
-
-	n(48,28,5),
-	n(50,24,3),
-
-	n(52,26,4),
-	n(54,23,2),
-
-	n(56,24,1),
-	n(57,28,3),
-	n(58,33,5),
-	n(59,33,5),
-
-	n(60,32,4),
-
-	n(64,40,5),
-	n(65,35,2),
-	n(65.5,36,3),
-	n(66,38,4),
-	n(67,36,3),
-	n(67.5,35,2),
-
-	n(68,33,1),
-	n(69,33,1),
-	n(69.5,36,3),
-	n(70,40,5),
-	n(71,38,4),
-	n(71.5,36,3),
-
-	n(72,35,2),
-	n(73,35,2),
-	n(73.5,36,3),
-	n(74,38,4),
-	n(75,40,5),
-
-	n(76,36,3),
-	n(77,33,1),
-	n(78,33,1),
-
-	n(80.5,38,1),
-	n(81.5,41,3),
-	n(82,45,5),
-	n(83,43,4),
-	n(83.5,41,3),
-
-	n(84,40,2),
-	n(85.5,36,1),
-	n(86,40,5),
-	n(87,38,4),
-	n(87.5,36,3),
-
-	n(88,35,2),
-	n(89,35,2),
-	n(89.5,36,3),
-	n(90,38,4),
-	n(91,40,5),
-
-	n(92,36,3),
-	n(93,33,1),
-	n(94,33,1),
-}
-
-notes2={
-	n(0,24,1),
-	n(1,26,2),
-	n(2,28,3),
-	n(3,29,4),
-	n(4,31,5),
-	n(6,24,1),
-	n(6,28,3),
-	n(6,31,5),
-}
-
 notes3={
 	-- page 1
 	-- line 2
@@ -735,10 +605,38 @@ notes3={
 	n(371,21,1),
 }
 
+function ofs(s,c)
+	for i=1,#s do
+		if sub(s,i,_)==c then
+			return i
+		end
+	end
+	return nil
+end
+
+charmap="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!#%(){}[]<>+=/*:;.,~_-@$^|&?`' "
+lengthmap={0,1,2,3,4,3.5,2.5,1.5,0.5,0.75,0.25,0.125,0.3333,0.1667}
+function decode(s)
+	ret={}
+	local b=0
+	for i=1,#s,2 do
+		n=(ofs(charmap,sub(s,i,_))-1)*#charmap+(ofs(charmap,sub(s,i+1,_))-1)
+		_string,n=n%7,n\7
+		p,n=n%62,n\62
+		b+=lengthmap[n+1]
+		add(ret,{
+			beat=b,
+			pitch=p,
+			string=_string+1,
+		})
+	end
+	return ret
+end
+
 songs={
 	{
 		title="tetris theme",
-		notes=notes1,
+		notes=decode("0z35cf1Ob 2ycf1O2}b 2-cf1Ob 2}cf1O2yc62jcR1Oc62jcR1O2}c635cR1Oc62-cR1O2}b 2ycf1Ob 2ycf1O2}b 2-cf1Ob 35cf1Oc62}cR1Oc62jcR1Oc62jcR1Oc6cR1Oc6cf1V2,c6cf1V3Ac63ecf1Vc63Pcf1V3Ac632cR1Oc6cR1O2)c635cR1Oc62-cR1O2}b 2ycf1Ob 2ycf1O2}b 2-cf1Ob 35cf1Oc62}cR1Oc62jcR1Oc62jcR1Oc65b2EcR1Oc6cR1Oc61:cR1Oc6cR1Ob 1 cf1Ob cf1Ob 1[cf1Ob cf1Oc61:cR1Oc6cR1Oc61scR1Oc6cR1Ob 1mcf1Ob cf1Ob 1<cf1Ob cf1Oc62EcR1Oc6cR1Oc61:cR1Oc6cR1Ob 1 cf1Ob cf1Ob 1[cf1Ob cf1Oc61/cR1Oc62CcR1Oc62ncR1Oc62ncR1Ob 2fcf1Ob cf1Ob cf1Ob cf1Ob 35cf1Ob 2ycf1O2}b 2-cf1Ob 2}cf1O2yc62jcR1Oc62jcR1O2}c635cR1Oc62-cR1O2}b 2ycf1Ob 2ycf1O2}b 2-cf1Ob 35cf1Oc62}cR1Oc62jcR1Oc62jcR1Oc6cR1Oc6cf1V2,c6cf1V3Ac63ecf1Vc63Pcf1V3Ac632cR1Oc6cR1O2)c635cR1Oc62-cR1O2}b 2ycf1Ob 2ycf1O2}b 2-cf1Ob 35cf1Oc62}cR1Oc62jcR1Oc62jcR1Oc6"),
 		tempo=120,
 		hsidx=0
 	},
@@ -750,11 +648,12 @@ songs={
 	},
 	{
 		title="chords",
-		notes=notes2,
+		notes=decode("1/6x6=6_74BD2C2Z"),
 		tempo=180,
 		hsidx=1
 	}
 }
+
 function s()
 	return songs[song]
 end
