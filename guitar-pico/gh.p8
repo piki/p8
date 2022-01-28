@@ -202,9 +202,12 @@ function handle_key(k)
 
 	score+=5*mult()
 	wnmsg=nil
-	streak+=1
-	if streak>longest_streak then
-		longest_streak=streak
+	if n(p).beat!=last_streak_beat then
+		streak+=1
+		last_streak_beat=n(p).beat
+		if streak>longest_streak then
+			longest_streak=streak
+		end
 	end
 	n(p).played=true
 end
