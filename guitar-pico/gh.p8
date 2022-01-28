@@ -33,23 +33,26 @@ end
 
 songs={
 	{
-		title="tetris theme",
-		notes=decode("0z35cf1Ob 2ycf1O2}b 2-cf1Ob 2}cf1O2yc62jcR1Oc62jcR1O2}c635cR1Oc62-cR1O2}b 2ycf1Ob 2ycf1O2}b 2-cf1Ob 35cf1Oc62}cR1Oc62jcR1Oc62jcR1Oc6cR1Oc6cf1V2,c6cf1V3Ac63ecf1Vc63Pcf1V3Ac632cR1Oc6cR1O2)c635cR1Oc62-cR1O2}b 2ycf1Ob 2ycf1O2}b 2-cf1Ob 35cf1Oc62}cR1Oc62jcR1Oc62jcR1Oc65b2EcR1Oc6cR1Oc61:cR1Oc6cR1Ob 1 cf1Ob cf1Ob 1[cf1Ob cf1Oc61:cR1Oc6cR1Oc61scR1Oc6cR1Ob 1mcf1Ob cf1Ob 1<cf1Ob cf1Oc62EcR1Oc6cR1Oc61:cR1Oc6cR1Ob 1 cf1Ob cf1Ob 1[cf1Ob cf1Oc61/cR1Oc62CcR1Oc62ncR1Oc62ncR1Ob 2fcf1Ob cf1Ob cf1Ob cf1Ob 35cf1Ob 2ycf1O2}b 2-cf1Ob 2}cf1O2yc62jcR1Oc62jcR1O2}c635cR1Oc62-cR1O2}b 2ycf1Ob 2ycf1O2}b 2-cf1Ob 35cf1Oc62}cR1Oc62jcR1Oc62jcR1Oc6cR1Oc6cf1V2,c6cf1V3Ac63ecf1Vc63Pcf1V3Ac632cR1Oc6cR1O2)c635cR1Oc62-cR1O2}b 2ycf1Ob 2ycf1O2}b 2-cf1Ob 35cf1Oc62}cR1Oc62jcR1Oc62jcR1Oc6"),
-		tempo=120,
-		hsidx=0
+		title="smoke on the water",
+		artist="deep purple",
+		notes=decode("1?2W6,2s722[Yw2W6,2s7A2:d%2[BR2W6,2s722[Y,2s6w2WOf1j1?2W601)2I2s6E1,2X2[X>1j1?2W601)2I2s6L1|2f2:c*1,2X2[Af1j1?2W601)2I2s6E1,2X2[Y01)2I2s5>1j1?2W9%b<b;b$1e1`2Xb$b$1!2J2tb$b$1:2Y2]b$b$b$1e1`2Xb$b$1!2J2tb$b$1@2f2:b$1*2X2[b$b$b$b$1e1`2Xb$b$1!2J2tb$cR1:2Y2]cRcRcD1!2J2t5i1e1`2Xb$b$b$b%b<b;2Kb$2Zb$c*1*2Z5N2Kb$c*1z1'dpb$b$1z1'cfcD5wcY1:cf1!b$1$mklNc*1!dFc!cRc!1 b$1!c<cD1ecRcfc*1 mVl>1ecRcDb$b$2Jc*1z1`2J5N2Jb$1`c*1z1`2JdSb$2Yb$c*1z6Eb$c*1`2Y2u5N1`2Y2ub$c*1`2Y2u601/2J2mcR1`b<1Q1t1:d0b$1!1'cf1!1'cYcR1ecDb$b<b;b$b$c*1z1`2Y5N2Yb$2Jc*1z1`2Ydob$2Yc*c!1z1`2YcfcRcDb$b<1!b$1:b$1!c*1$601s1:cRb<1!dVmslN206E1#1 2Zc!cf1#1 2ZcRcD1'mVlw1eb$b$1`c*1z1`2J5N2Jb$1`c*1z1`2JdSb$1z1`2Jb$cR1z1`2Ycfc!c*cR1`2X2tcf2@b$2Kb$1'c*1!1 601:cR1 b<d0m9lNb$c*c!cfcRcDb$cR1g1;2EFR1 co1:b 1n1;27Aw1n1;9$c+2YcD1%2ub$1g2YcD1%2ub$1g2Yb<1R2Jb$1g2Y5N1gcD1%b$1gcD1%b$1gb<1R5w1g1;2EFT1'cq1*b 1n1;27Aw1n1;b%b<b;b$1e1`2Xb$b$1!2J2tb$b$1:2Y2]b$b$b$1e1`2Xb$b$1!2J2tb$b$1@2f2:b$1*2X2[b$b$b$b$1e1`2Xb$b$1!2J2tb$cR1:2Y2]cRcRcD1!2J2t5i1e1`2Xb$b$b$b$b<b;b$1e1`2Xb$b$1!2J2tb$b$1:2Y2]b$b$b$1e1`2Xb$b$1!2J2tb$b$1@2f2:b$1*2X2[b$b$b$b$1e1`2Xb$b$1!2J2tb$cR1:2Y2]cRcRcD1!2J2t5N1e1`2Xb$b$c*c!cflwlib$2Zb$c*1*2Z5N2Kb$c*1z1'dpb$b$1z1'cfcD5wcY1:cf1!b$1$mklNc*1!dFc!cRc!1 b$1!c<cD1ecRcfc*1 mVl>1ecRcDb$b$2Jc*1z1`2J5N2Jb$1`c*1z1`2JdSb$2Yb$c*1z6Eb$c*1`2Y2u5N1`2Y2ub$c*1`2Y2u601/2J2mcR1`b<1Q1t1:d0b$1!1'cf1!1'cYcR1ecDb$b<b;b$b$c*1z1`2Y5N2Yb$2Jc*1z1`2Ydob$2Yc*c!1z1`2YcfcRcDb$b<1!b$1:b$1!c*1$601s1:cRb<1!dVmslN206E1#1 2Zc!cf1#1 2ZcRcD1'mVlw1eb$b$1`c*1z1`2J5N2Jb$1`c*1z1`2JdSb$1z1`2Jb$cR1z1`2Ycfc!c*cR1`2X2tcf2@b$2Kb$1'c*1!1 601:cR1 b<d0m9lNb$c*c!cfcRcDb$cR1g1;2EFR1 co1:b 1n1;27Aw1n1;9$c+2YcD1%2ub$1g2YcD1%2ub$1g2Yb<1R2Jb$1g2Y5N1gcD1%b$1gcD1%b$1gb<1R5w1g1;2EFT1'cq1*b 1n1;27Aw1n1;b%b<b;b$1e1`2Xb$b$1!2J2tb$b$1:2Y2]b$b$b$1e1`2Xb$b$1!2J2tb$b$1@2f2:b$1*2X2[b$b$b$b$1e1`2Xb$b$1!2J2tb$cR1:2Y2]cRcRcD1!2J2t5i1e1`2Xb$b$b$b$b<b;b$1e1`2Xb$b$1!2J2tb$b$1:2Y2]b$b$b$1e1`2Xb$b$1!2J2tb$b$1@2f2:b$1*2X2[b$b$b$b$1e1`2Xb$b$1!2J2tb$cR1:2Y2]cRcRcD1!2J2t5N1e1`2Xb$b$c*c!cflwlib$2Zb$c*1*2Z5N2Kb$c*1z1'dpb$b$1z1'cfcD5wcY1:cf1!b$1$mklNc*1!dFc!cRc!1 b$1!c<cD1ecRcfc*1 mVl>1ecRcDb$b$2Jc*1z1`2J5N2Jb$1`c*1z1`2JdSb$2Yb$c*1z6Eb$c*1`2Y2u5N1`2Y2ub$c*1`2Y2u601/2J2mcR1`b<1Q1t1:d0b$1!1'cf1!1'cYcR1ecDb$b<b;b$b$c*1z1`2Y5N2Yb$2Jc*1z1`2Ydob$2Yc*c!1z1`2YcfcRcDb$b<1!b$1:b$1!c*1$601s1:cRb<1!dVmslN206E1#1 2Zc!cf1#1 2ZcRcD1'mVlw1eb$b$1`c*1z1`2J5N2Jb$1`c*1z1`2JdSb$1z1`2Jb$cR1z1`2Ycfc!c*cR1`2X2tcf2@b$2Kb$1'c*1!1 601:cR1 b<d0m9lNb$c*c!cfcRcDb$cR1g1;2EFR1 co1:b 1n1;27Aw1n1;9$c+2YcD1%2ub$1g2YcD1%2ub$1g2Yb<1R2Jb$1g2Y5N1gcD1%b$1gcD1%b$1gb<1R5w1g1;2EFT1'cq1*b 1n1;27Aw1n1;b%b<b;b$1e1`2Xb$b$1!2J2tb$b$1:2Y2]b$b$b$1e1`2Xb$b$1!2J2tb$b$1@2f2:b$1*2X2[b$b$b$b$1e1`2Xb$b$1!2J2tb$cR1:2Y2]cRcRcD1!2J2t5i1e1`2Xb$b$b$b$b<b;b$1e1`2Xb$b$1!2J2tb$b$1:2Y2]b$b$b$1e1`2Xb$b$1!2J2tb$b$1@2f2:b$1*2X2[b$b$b$b$1e1`2Xb$b$1!2J2tb$cR1:2Y2]cRcRcD1!2J2t5N1e1`2Xb$b$c*c!cflwlib$1e1`2Xb$c*1!2J2tc*b$1:2Y2]b$c*c<1j1`2Xb$b$1!2J2tc*c*1@2f2:b$1*2X2[b$c*c*b$1e1`2Xb$c*1!2J2tc*cR1:2Y2]cRcRcD1!2J2t5N1e1`2X"),
+		tempo=115,
+		hsidx=3
 	},
 	{
-		title="apache - the shadows",
+		title="apache",
+		artist="the shadows",
 		notes=decode("0}c6c6c6c6c6c6c6c6c6c6c6c6c6c6c6c60?1O6NdEdTdbcf1c1x1'A$dEd,d(c61s1*2CA$dEdTdbcf1c1x1'A$dEd,d(c`1s1*2CUCc62n5w1O1xd,ct2C5w1O1x2n5>2R671x21dwc`2C671x211`5b1s1*2Cc`2FmS2Flw1Oc`2FcR1Oc`2FcR1Oc`2Fc6c`2FmS2Flw1Oc`2FcR1Oc`2FcR1O2C5b2n5w1O1xd,ct2C5w1O1x2n5>2R671x21dwc`2C671x1`215b1s1*2Cc`2FmS2Flw1Oc`2FcR1Oc`2FcR1Oc`2Fc6c`2FmS2Flw1Oc`2FcR1Oc`2FcR1O2l5>2@601x21eMc62l601x212@5N2!5p1A1je0cf2l5p1A1j2W5>2j2_dW2om#2om01xdW2oc!1xdW2oc!1xdW2ocfdW2om#2om01xdW2oc!1xdW2oc!1x2C5b2n5w1O1xd,ct2C5w1O1x2n5>2R671x21dwc`2C671x1`215b1s1*2Cc`2FmS2Flw1Oc`2FcR1Oc`2FcR1Oc`2Fc6c`2FmS2Flw1Oc`2FcR1Oc`2FcR1O590@cyl'lw1Tcyb<0@cyl'lw1Tcyb<0@cyl'lw1Tcyb<0@cyl'lw1Tcyc61/2B2XA60?1O1xA6c`2FmS2Fl^c`2Fc6c`2Fctc`2Fb<0@cyl'lw1Tcyb<0@cyl'lw1Tcyb<0@cyl'lw1Tcyb<0@cyl'lw1Tcyc61/2B2XA60?1O1xA6c`2FmS2Fl^c`2Fc6c`2Fctc`2Fb<1s1*2J5&2J6O2m6k2]5N1}2z5p1A1j6E1*2[5N0_1'2@5b2C35v`2-zw1O!i2}u}0?1s2kA62F5w1O21dIc60?1O1x9<1s1*2J5&2J6O2m6k2]5N1}2z5p1A1j6E1*2[5N0_1'2@4{1fc>mAlw1fc>ba1nc>cR1nc>bac>mAlw1fc>ba1nc>cR1nc>b<1s1*2J5&2J6O2m6k2]5N1}2z5p1A1j6E1*2[5N0_1'2@5b2C35v`2-zw1O!i2}u}0?1s2kA62F5w1O21dIc60?1O1x9<0@cyl'lw1Tcyb<0@cyl'lw1Tcyb<0@cyl'lw1Tcyb<0@cyl'lw1Tcyc61s1*2CA60?1O1xA6c`2FmS2Fl^c`2Fc6c`2Fctc`2Fb<0@cyl'lw1Tcyb<0@cyl'lw1Tcyb<0@cyl'lw1Tcyb<0@cyl'lw1Tcyc61/2B2XA60?1O1xA6c`2FmS2Fl^c`2Fc6c`2Fct2C5b2nXw1O1x2nnIl^2C7IcR1O1xcf2RY71x212Rm?mS2C6xc[1x21c61s1*2CXw1OcR1OXw1Oc6Xw1OcR1O6=cR1Oc62nXw1O1x2nnIl^2C7IcR1O1xcf2RY71x212Rm?mS2C6xc[1x21c61s1*2CXw1OcR1OXw1Oc6Xw1OcR1O7GcR1Ocf2@601x21eMnrlb2l601x212@5N2!e0nVlp212a2!e0dW2l5p1A1j2W5>2@d;c!1x601x601x5>601x601x5^1xdhc62nXw1O1x2nnIl^2C7IcR1O1xcf2RY71x212Rm?mS2C6xc[1x21c61s1*2CXw1OcR1OXw1Oc6Xw1OcR1OXw1Ob<1s1*2J5&2J6O2m6k2]5N1}2z5p1A1j6E1*2[5N0_1'2@5b2C35v`2-zw1O!i2}u}0?1s2kA62F5w1O21dIc60?1O1x9<1s1*2J5&2J6O2m6k2]5N1}2z5p1A1j6E1*2[5N0_1'2@4{1fc>mAlw1fc>ba1nc>cR1nc>bac>mAlw1fc>ba1nc>cR1nc>b<1s1*2J5&2J6O2m6k2]5N1}2z5p1A1j6E1*2[5N0_1'2@5b2C35v`2-zw1O!i2}u}0?1s2kA62F5w1O21dIc60?1O1x9<1V1/dpm_m_dpc61x1/dpm_m_dpcR1,1/dpm_m_dpc!1/2Mdpm_m_dpct2j2{33A`1,2F2oA6ct1xl^1xl^ct1xc6ct1xctct1xb<1Q2I5b0?1V5w1t2l5b0?1V591:2[5b0?1V5w2K3C5b0?1V5b2C345w1Oc`2FcR1O1x2F5w1Oc`2Fc65w1Oc`2FcR1O1x2F5w1Oc`2Fc60?1O1x6NdEdTdbcf1c1x1'A$dEd,d%c61s1*2CA$dEdTdbcf1c1x1'A$dEd,d(c61s1*2CA$dEdTdbcf1c1x1'A$dEd,d(c61s1*2CA$dEdTdbcf1c1x1'A$dEc$dEc61sA$dEc$dEc$"),
 		tempo=120,
 		hsidx=2
 	},
 	{
-		title="smoke on the water",
-		notes=decode("1?2W6,2s722[Yw2W6,2s7A2:d%2[BR2W6,2s722[Y,2s6w2WOf1j1?2W601)2I2s6E1,2X2[X>1j1?2W601)2I2s6L1|2f2:c*1,2X2[Af1j1?2W601)2I2s6E1,2X2[Y01)2I2s5>1j1?2W9%b<b;b$1e1`2Xb$b$1!2J2tb$b$1:2Y2]b$b$b$1e1`2Xb$b$1!2J2tb$b$1@2f2:b$1*2X2[b$b$b$b$1e1`2Xb$b$1!2J2tb$cR1:2Y2]cRcRcD1!2J2t5i1e1`2Xb$b$b$b%b<b;2Kb$2Zb$c*1*2Z5N2Kb$c*1z1'dpb$b$1z1'cfcD5wcY1:cf1!b$1$mklNc*1!dFc!cRc!1 b$1!c<cD1ecRcfc*1 mVl>1ecRcDb$b$2Jc*1z1`2J5N2Jb$1`c*1z1`2JdSb$2Yb$c*1z6Eb$c*1`2Y2u5N1`2Y2ub$c*1`2Y2u601/2J2mcR1`b<1Q1t1:d0b$1!1'cf1!1'cYcR1ecDb$b<b;b$b$c*1z1`2Y5N2Yb$2Jc*1z1`2Ydob$2Yc*c!1z1`2YcfcRcDb$b<1!b$1:b$1!c*1$601s1:cRb<1!dVmslN206E1#1 2Zc!cf1#1 2ZcRcD1'mVlw1eb$b$1`c*1z1`2J5N2Jb$1`c*1z1`2JdSb$1z1`2Jb$cR1z1`2Ycfc!c*cR1`2X2tcf2@b$2Kb$1'c*1!1 601:cR1 b<d0m9lNb$c*c!cfcRcDb$cR1g1;2EFR1 co1:b 1n1;27Aw1n1;9$c+2YcD1%2ub$1g2YcD1%2ub$1g2Yb<1R2Jb$1g2Y5N1gcD1%b$1gcD1%b$1gb<1R5w1g1;2EFT1'cq1*b 1n1;27Aw1n1;b%b<b;b$1e1`2Xb$b$1!2J2tb$b$1:2Y2]b$b$b$1e1`2Xb$b$1!2J2tb$b$1@2f2:b$1*2X2[b$b$b$b$1e1`2Xb$b$1!2J2tb$cR1:2Y2]cRcRcD1!2J2t5i1e1`2Xb$b$b$b$b<b;b$1e1`2Xb$b$1!2J2tb$b$1:2Y2]b$b$b$1e1`2Xb$b$1!2J2tb$b$1@2f2:b$1*2X2[b$b$b$b$1e1`2Xb$b$1!2J2tb$cR1:2Y2]cRcRcD1!2J2t5N1e1`2Xb$b$c*c!cflwlib$2Zb$c*1*2Z5N2Kb$c*1z1'dpb$b$1z1'cfcD5wcY1:cf1!b$1$mklNc*1!dFc!cRc!1 b$1!c<cD1ecRcfc*1 mVl>1ecRcDb$b$2Jc*1z1`2J5N2Jb$1`c*1z1`2JdSb$2Yb$c*1z6Eb$c*1`2Y2u5N1`2Y2ub$c*1`2Y2u601/2J2mcR1`b<1Q1t1:d0b$1!1'cf1!1'cYcR1ecDb$b<b;b$b$c*1z1`2Y5N2Yb$2Jc*1z1`2Ydob$2Yc*c!1z1`2YcfcRcDb$b<1!b$1:b$1!c*1$601s1:cRb<1!dVmslN206E1#1 2Zc!cf1#1 2ZcRcD1'mVlw1eb$b$1`c*1z1`2J5N2Jb$1`c*1z1`2JdSb$1z1`2Jb$cR1z1`2Ycfc!c*cR1`2X2tcf2@b$2Kb$1'c*1!1 601:cR1 b<d0m9lNb$c*c!cfcRcDb$cR1g1;2EFR1 co1:b 1n1;27Aw1n1;9$c+2YcD1%2ub$1g2YcD1%2ub$1g2Yb<1R2Jb$1g2Y5N1gcD1%b$1gcD1%b$1gb<1R5w1g1;2EFT1'cq1*b 1n1;27Aw1n1;b%b<b;b$1e1`2Xb$b$1!2J2tb$b$1:2Y2]b$b$b$1e1`2Xb$b$1!2J2tb$b$1@2f2:b$1*2X2[b$b$b$b$1e1`2Xb$b$1!2J2tb$cR1:2Y2]cRcRcD1!2J2t5i1e1`2Xb$b$b$b$b<b;b$1e1`2Xb$b$1!2J2tb$b$1:2Y2]b$b$b$1e1`2Xb$b$1!2J2tb$b$1@2f2:b$1*2X2[b$b$b$b$1e1`2Xb$b$1!2J2tb$cR1:2Y2]cRcRcD1!2J2t5N1e1`2Xb$b$c*c!cflwlib$2Zb$c*1*2Z5N2Kb$c*1z1'dpb$b$1z1'cfcD5wcY1:cf1!b$1$mklNc*1!dFc!cRc!1 b$1!c<cD1ecRcfc*1 mVl>1ecRcDb$b$2Jc*1z1`2J5N2Jb$1`c*1z1`2JdSb$2Yb$c*1z6Eb$c*1`2Y2u5N1`2Y2ub$c*1`2Y2u601/2J2mcR1`b<1Q1t1:d0b$1!1'cf1!1'cYcR1ecDb$b<b;b$b$c*1z1`2Y5N2Yb$2Jc*1z1`2Ydob$2Yc*c!1z1`2YcfcRcDb$b<1!b$1:b$1!c*1$601s1:cRb<1!dVmslN206E1#1 2Zc!cf1#1 2ZcRcD1'mVlw1eb$b$1`c*1z1`2J5N2Jb$1`c*1z1`2JdSb$1z1`2Jb$cR1z1`2Ycfc!c*cR1`2X2tcf2@b$2Kb$1'c*1!1 601:cR1 b<d0m9lNb$c*c!cfcRcDb$cR1g1;2EFR1 co1:b 1n1;27Aw1n1;9$c+2YcD1%2ub$1g2YcD1%2ub$1g2Yb<1R2Jb$1g2Y5N1gcD1%b$1gcD1%b$1gb<1R5w1g1;2EFT1'cq1*b 1n1;27Aw1n1;b%b<b;b$1e1`2Xb$b$1!2J2tb$b$1:2Y2]b$b$b$1e1`2Xb$b$1!2J2tb$b$1@2f2:b$1*2X2[b$b$b$b$1e1`2Xb$b$1!2J2tb$cR1:2Y2]cRcRcD1!2J2t5i1e1`2Xb$b$b$b$b<b;b$1e1`2Xb$b$1!2J2tb$b$1:2Y2]b$b$b$1e1`2Xb$b$1!2J2tb$b$1@2f2:b$1*2X2[b$b$b$b$1e1`2Xb$b$1!2J2tb$cR1:2Y2]cRcRcD1!2J2t5N1e1`2Xb$b$c*c!cflwlib$1e1`2Xb$c*1!2J2tc*b$1:2Y2]b$c*c<1j1`2Xb$b$1!2J2tc*c*1@2f2:b$1*2X2[b$c*c*b$1e1`2Xb$c*1!2J2tc*cR1:2Y2]cRcRcD1!2J2t5N1e1`2X"),
-		tempo=115,
-		hsidx=3
-	}
+		title="korobeiniki",
+		artist="tetris theme",
+		notes=decode("0z35cf1Ob 2ycf1O2}b 2-cf1Ob 2}cf1O2yc62jcR1Oc62jcR1O2}c635cR1Oc62-cR1O2}b 2ycf1Ob 2ycf1O2}b 2-cf1Ob 35cf1Oc62}cR1Oc62jcR1Oc62jcR1Oc6cR1Oc6cf1V2,c6cf1V3Ac63ecf1Vc63Pcf1V3Ac632cR1Oc6cR1O2)c635cR1Oc62-cR1O2}b 2ycf1Ob 2ycf1O2}b 2-cf1Ob 35cf1Oc62}cR1Oc62jcR1Oc62jcR1Oc65b2EcR1Oc6cR1Oc61:cR1Oc6cR1Ob 1 cf1Ob cf1Ob 1[cf1Ob cf1Oc61:cR1Oc6cR1Oc61scR1Oc6cR1Ob 1mcf1Ob cf1Ob 1<cf1Ob cf1Oc62EcR1Oc6cR1Oc61:cR1Oc6cR1Ob 1 cf1Ob cf1Ob 1[cf1Ob cf1Oc61/cR1Oc62CcR1Oc62ncR1Oc62ncR1Ob 2fcf1Ob cf1Ob cf1Ob cf1Ob 35cf1Ob 2ycf1O2}b 2-cf1Ob 2}cf1O2yc62jcR1Oc62jcR1O2}c635cR1Oc62-cR1O2}b 2ycf1Ob 2ycf1O2}b 2-cf1Ob 35cf1Oc62}cR1Oc62jcR1Oc62jcR1Oc6cR1Oc6cf1V2,c6cf1V3Ac63ecf1Vc63Pcf1V3Ac632cR1Oc6cR1O2)c635cR1Oc62-cR1O2}b 2ycf1Ob 2ycf1O2}b 2-cf1Ob 35cf1Oc62}cR1Oc62jcR1Oc62jcR1Oc6"),
+		tempo=120,
+		hsidx=0
+	},
 }
 
 function s()
@@ -245,14 +248,14 @@ function draw_title()
 	cls()
 	map()
 	for i=1,#songs do
-		lprint(songs[i].title,30,70+10*i)
+		lprint(songs[i].title,27,70+10*i)
 	end
 
 	pal(7,0,0)
 	pal(13,0,0)
-	spr(0,20,69+10*songsel)
+	spr(0,17,69+10*songsel)
 	pal()
-	spr(0,19,68+10*songsel)
+	spr(0,16,68+10*songsel)
 end
 
 function draw_score()
