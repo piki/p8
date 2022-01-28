@@ -62,6 +62,10 @@ function s()
 	return songs[song]
 end
 
+function n(p)
+	return songs[song].notes[p]
+end
+
 notep=1
 shake=0
 
@@ -131,7 +135,7 @@ function update_song()
 
 	if btnp(❎) then
 		if notep<#s().notes then
-			k=s().notes[notep].string
+			k=n(notep).string
 		else
 			k=0
 		end
@@ -147,18 +151,18 @@ function update_song()
 	end
 
 	-- sound played notes that have passed
-	while notep<=#s().notes and s().notes[notep].beat<b and s().notes[notep].played do
-		play(s().notes[notep].pitch)
+	while notep<=#s().notes and n(notep).beat<b and n(notep).played do
+		play(n(notep).pitch)
 		notep+=1
 	end
 
 	-- drop missed notes that are too far passed
-	while notep<=#s().notes and s().notes[notep].beat<b-0.2 do
+	while notep<=#s().notes and n(notep).beat<b-0.2 do
 		wrong_note()
 		notep += 1
 	end
 
-	if beat()>s().notes[#s().notes].beat+2 then
+	if beat()>n(#s().notes).beat+2 then
 		stop("score")
 	end
 end
@@ -171,7 +175,7 @@ function handle_key(k)
 
 	-- skip already-played notes
 	local p=notep
-	while p<=#s().notes and s().notes[p].played do
+	while p<=#s().notes and n(p).played do
 		p+=1
 	end
 
@@ -181,18 +185,18 @@ function handle_key(k)
 	end
 
 	-- search this chord to find an unplayed, matching string
-	local cur=s().notes[p].beat	
-	while p<=#s().notes and s().notes[p].beat==cur and (s().notes[p].string!=k or s().notes[p].played) do
+	local cur=n(p).beat	
+	while p<=#s().notes and n(p).beat==cur and (n(p).string!=k or n(p).played) do
 		p+=1
 	end
 
-	if p>#s().notes or s().notes[p].beat>cur then
+	if p>#s().notes or n(p).beat>cur then
 		wrong_note("not in chord")
 		return
 	end
 
-	if abs(s().notes[p].beat-b)>0.2 then
-		wrong_note("bad timing: "..(s().notes[p].beat-b))
+	if abs(n(p).beat-b)>0.2 then
+		wrong_note("bad timing: "..(n(p).beat-b))
 		return
 	end
 
@@ -202,7 +206,7 @@ function handle_key(k)
 	if streak>longest_streak then
 		longest_streak=streak
 	end
-	s().notes[p].played=true
+	n(p).played=true
 end
 
 function wrong_note(msg)
@@ -358,12 +362,12 @@ function draw_song()
 
 	-- draw upcoming notes
 	local p=notep
-	while p<=#s().notes and s().notes[p].beat < b+5 do
-		if not s().notes[p].played then
-			local y=ymap(s().notes[p].beat-b)
+	while p<=#s().notes and n(p).beat < b+5 do
+		if not n(p).played then
+			local y=ymap(n(p).beat-b)
 			local f=fmap(y)
-			local x=xmap(y,s().notes[p].string-1)
-			col=color[s().notes[p].string]
+			local x=xmap(y,n(p).string-1)
+			col=color[n(p).string]
 			ovalfill(x-f*7.5,y,x+f*7.5,y+f*5,col)
 		end
 		p += 1
