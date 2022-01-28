@@ -332,8 +332,12 @@ function draw_song()
 	for i=0,4 do
 		line(45.5+9*i,20,29.4+17*i,117,13)
 		line(46.5+9*i,20,30.4+17*i,117,5)
-		ovalfill(22+17*i,115,37+17*i,120,color[i+1])
-		oval(24+17*i,116,35+17*i,119,color[i+6])
+		local dy=0
+		if stat(28,30+i) then
+			dy=2
+		end
+		ovalfill(22+17*i,115-dy,37+17*i,120-dy,color[i+1])
+		oval(24+17*i,116-dy,35+17*i,119-dy,color[i+6])
 	end
 
 	if streak>29 then
