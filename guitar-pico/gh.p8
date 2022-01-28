@@ -400,10 +400,16 @@ function draw_song()
 	local lpos = 1
 	if s().lyrics != nil then
 		for i=1,#s().lyrics do
-			if lpos<=2 and b>=s().lyrics[i][1] and b<=s().lyrics[i][2] then
+			if lpos==1 and b>=s().lyrics[i][1]-0.5 and b<=s().lyrics[i][2]+0.5 then
 				local w=print(s().lyrics[i][3],0,-20)
-				print(s().lyrics[i][3],63-w/2,-6+8*lpos,7-lpos)
+				print(s().lyrics[i][3],63-w/2,-6+8*lpos,6)
 				lpos+=1
+			elseif lpos==2 and b>=s().lyrics[i][1]-2 and b<=s().lyrics[i][2]+0.5 then
+				local w=print(s().lyrics[i][3],0,-20)
+				print(s().lyrics[i][3],63-w/2,-6+8*lpos,5)
+				lpos+=1
+			elseif lpos>2 then
+				break
 			end
 		end
 	end
