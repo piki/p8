@@ -58,6 +58,7 @@ def read(fp)
 	ret = []
 	lineno = 0
 	instrument = nil
+	repeat_start = repeat_count = repeat_beat = nil
 	fp.each_line do |line|
 		lineno += 1
 		beat = beat.round if (beat-beat.round).abs < 0.0001
@@ -82,10 +83,28 @@ def read(fp)
 						note = $1
 						octave = $2.to_i
 					end
-					fail "no instrument" unless instrument
+					fail "line #{lineno}: no instrument" unless instrument
 					ret << Note.new(beat, get_pitch(note.downcase, octave), instrument, strings.shift, lineno)
 				end
 				beat += length
+			when /^repeat \s+ (\d+) \s* {$/xi
+				fail "line #{lineno}: nested repeats are not allowed" if repeat_start || repeat_count
+				repeat_start = ret.size
+				repeat_count = $1.to_i
+				repeat_beat = beat
+				fail "line #{lineno}: invalid repeat count #{$1}" unless repeat_count >= 1 && repeat_count <= 20
+			when /^}$/
+				repeat_end_beat = beat
+				ret += (1..repeat_count-1).map{|i|
+					puts "append i=#{i} range=#{repeat_start}..#{ret.size-1} beats=#{repeat_beat}..#{repeat_end_beat}"
+					ret[repeat_start..-1].map{|n|
+						n = n.dup
+						n.beat += i*(repeat_end_beat - repeat_beat)
+						n
+					}
+				}.flatten
+				beat += (repeat_count - 1)*(repeat_end_beat - repeat_beat)
+				repeat_start = repeat_count = repeat_beat = nil
 			when /^r \s+ ([0-9](?:\.[0-9])?)$/xi
 				length = $1.to_f
 				beat += length
