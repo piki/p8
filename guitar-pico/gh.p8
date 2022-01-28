@@ -358,7 +358,7 @@ function draw_song()
 		local x=xmap(y,0)
 		local f=fmap(y)-0.25
 			line(x,y+f*5,128-x,y+f*5,5)
-			print(bb,132-x,y+f*5-2,7)
+--			print(bb,132-x,y+f*5-2,7)
 		end
 	end
 
