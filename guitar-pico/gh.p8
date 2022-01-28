@@ -175,12 +175,17 @@ function update_song()
 	end
 
 	if btnp(❎) then
-		if notep<#s().notes then
-			k=n(notep).string
-		else
-			k=0
+		local p=notep
+		while p<#s().notes and n(p).played do
+			p+=1
 		end
-		handle_key(k)
+		local b=n(p).beat
+		while p<#s().notes and n(p).beat==b do
+			if not n(p).played then
+				handle_key(n(p).string)
+			end
+			p+=1
+		end
 	end
 
 	while stat(30) do
