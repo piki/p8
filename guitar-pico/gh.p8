@@ -3,15 +3,6 @@ version 34
 __lua__
 screen="title"
 
-function n(b,p,s)
-	return {
-		beat=b,
-		pitch=p,
-		string=s,
-		played=false
-	}
-end
-
 function ofs(s,c)
 	for i=1,#s do
 		if sub(s,i,_)==c then
