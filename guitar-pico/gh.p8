@@ -37,6 +37,49 @@ songs={
 		artist="deep purple",
 		notes=decode("1?2W6,2s722[Yw2W6,2s7A2:d%2[BR2W6,2s722[Y,2s6w2WOf1j1?2W601)2I2s6E1,2X2[X>1j1?2W601)2I2s6L1|2f2:c*1,2X2[Af1j1?2W601)2I2s6E1,2X2[Y01)2I2s5>1j1?2W9%b<b;b$1e1`2Xb$b$1!2J2tb$b$1:2Y2]b$b$b$1e1`2Xb$b$1!2J2tb$b$1@2f2:b$1*2X2[b$b$b$b$1e1`2Xb$b$1!2J2tb$cR1:2Y2]cRcRcD1!2J2t5i1e1`2Xb$b$b$b%b<b;2Kb$2Zb$c*1*2Z5N2Kb$c*1z1'dpb$b$1z1'cfcD5wcY1:cf1!b$1$mklNc*1!dFc!cRc!1 b$1!c<cD1ecRcfc*1 mVl>1ecRcDb$b$2Jc*1z1`2J5N2Jb$1`c*1z1`2JdSb$2Yb$c*1z6Eb$c*1`2Y2u5N1`2Y2ub$c*1`2Y2u601/2J2mcR1`b<1Q1t1:d0b$1!1'cf1!1'cYcR1ecDb$b<b;b$b$c*1z1`2Y5N2Yb$2Jc*1z1`2Ydob$2Yc*c!1z1`2YcfcRcDb$b<1!b$1:b$1!c*1$601s1:cRb<1!dVmslN206E1#1 2Zc!cf1#1 2ZcRcD1'mVlw1eb$b$1`c*1z1`2J5N2Jb$1`c*1z1`2JdSb$1z1`2Jb$cR1z1`2Ycfc!c*cR1`2X2tcf2@b$2Kb$1'c*1!1 601:cR1 b<d0m9lNb$c*c!cfcRcDb$cR1g1;2EFR1 co1:b 1n1;27Aw1n1;9$c+2YcD1%2ub$1g2YcD1%2ub$1g2Yb<1R2Jb$1g2Y5N1gcD1%b$1gcD1%b$1gb<1R5w1g1;2EFT1'cq1*b 1n1;27Aw1n1;b%b<b;b$1e1`2Xb$b$1!2J2tb$b$1:2Y2]b$b$b$1e1`2Xb$b$1!2J2tb$b$1@2f2:b$1*2X2[b$b$b$b$1e1`2Xb$b$1!2J2tb$cR1:2Y2]cRcRcD1!2J2t5i1e1`2Xb$b$b$b$b<b;b$1e1`2Xb$b$1!2J2tb$b$1:2Y2]b$b$b$1e1`2Xb$b$1!2J2tb$b$1@2f2:b$1*2X2[b$b$b$b$1e1`2Xb$b$1!2J2tb$cR1:2Y2]cRcRcD1!2J2t5N1e1`2Xb$b$c*c!cflwlib$2Zb$c*1*2Z5N2Kb$c*1z1'dpb$b$1z1'cfcD5wcY1:cf1!b$1$mklNc*1!dFc!cRc!1 b$1!c<cD1ecRcfc*1 mVl>1ecRcDb$b$2Jc*1z1`2J5N2Jb$1`c*1z1`2JdSb$2Yb$c*1z6Eb$c*1`2Y2u5N1`2Y2ub$c*1`2Y2u601/2J2mcR1`b<1Q1t1:d0b$1!1'cf1!1'cYcR1ecDb$b<b;b$b$c*1z1`2Y5N2Yb$2Jc*1z1`2Ydob$2Yc*c!1z1`2YcfcRcDb$b<1!b$1:b$1!c*1$601s1:cRb<1!dVmslN206E1#1 2Zc!cf1#1 2ZcRcD1'mVlw1eb$b$1`c*1z1`2J5N2Jb$1`c*1z1`2JdSb$1z1`2Jb$cR1z1`2Ycfc!c*cR1`2X2tcf2@b$2Kb$1'c*1!1 601:cR1 b<d0m9lNb$c*c!cfcRcDb$cR1g1;2EFR1 co1:b 1n1;27Aw1n1;9$c+2YcD1%2ub$1g2YcD1%2ub$1g2Yb<1R2Jb$1g2Y5N1gcD1%b$1gcD1%b$1gb<1R5w1g1;2EFT1'cq1*b 1n1;27Aw1n1;b%b<b;b$1e1`2Xb$b$1!2J2tb$b$1:2Y2]b$b$b$1e1`2Xb$b$1!2J2tb$b$1@2f2:b$1*2X2[b$b$b$b$1e1`2Xb$b$1!2J2tb$cR1:2Y2]cRcRcD1!2J2t5i1e1`2Xb$b$b$b$b<b;b$1e1`2Xb$b$1!2J2tb$b$1:2Y2]b$b$b$1e1`2Xb$b$1!2J2tb$b$1@2f2:b$1*2X2[b$b$b$b$1e1`2Xb$b$1!2J2tb$cR1:2Y2]cRcRcD1!2J2t5N1e1`2Xb$b$c*c!cflwlib$2Zb$c*1*2Z5N2Kb$c*1z1'dpb$b$1z1'cfcD5wcY1:cf1!b$1$mklNc*1!dFc!cRc!1 b$1!c<cD1ecRcfc*1 mVl>1ecRcDb$b$2Jc*1z1`2J5N2Jb$1`c*1z1`2JdSb$2Yb$c*1z6Eb$c*1`2Y2u5N1`2Y2ub$c*1`2Y2u601/2J2mcR1`b<1Q1t1:d0b$1!1'cf1!1'cYcR1ecDb$b<b;b$b$c*1z1`2Y5N2Yb$2Jc*1z1`2Ydob$2Yc*c!1z1`2YcfcRcDb$b<1!b$1:b$1!c*1$601s1:cRb<1!dVmslN206E1#1 2Zc!cf1#1 2ZcRcD1'mVlw1eb$b$1`c*1z1`2J5N2Jb$1`c*1z1`2JdSb$1z1`2Jb$cR1z1`2Ycfc!c*cR1`2X2tcf2@b$2Kb$1'c*1!1 601:cR1 b<d0m9lNb$c*c!cfcRcDb$cR1g1;2EFR1 co1:b 1n1;27Aw1n1;9$c+2YcD1%2ub$1g2YcD1%2ub$1g2Yb<1R2Jb$1g2Y5N1gcD1%b$1gcD1%b$1gb<1R5w1g1;2EFT1'cq1*b 1n1;27Aw1n1;b%b<b;b$1e1`2Xb$b$1!2J2tb$b$1:2Y2]b$b$b$1e1`2Xb$b$1!2J2tb$b$1@2f2:b$1*2X2[b$b$b$b$1e1`2Xb$b$1!2J2tb$cR1:2Y2]cRcRcD1!2J2t5i1e1`2Xb$b$b$b$b<b;b$1e1`2Xb$b$1!2J2tb$b$1:2Y2]b$b$b$1e1`2Xb$b$1!2J2tb$b$1@2f2:b$1*2X2[b$b$b$b$1e1`2Xb$b$1!2J2tb$cR1:2Y2]cRcRcD1!2J2t5N1e1`2Xb$b$c*c!cflwlib$1e1`2Xb$c*1!2J2tc*b$1:2Y2]b$c*c<1j1`2Xb$b$1!2J2tc*c*1@2f2:b$1*2X2[b$c*c*b$1e1`2Xb$c*1!2J2tc*cR1:2Y2]cRcRcD1!2J2t5N1e1`2X"),
 		tempo=115,
+		lyrics={
+			{48,53.5,"we all came out to montreux"},
+			{55,64.0,"on the lake geneva shoreline"},
+			{64.5,70.0,"to make records with a mobile"},
+			{71,79.0,"we didn't have much time"},
+			{81,86.5,"frank zappa and the mothers"},
+			{87.5,96.0,"were at the best place around"},
+			{96.5,100.0,"but some stupid with a"},
+			{100,102.0,"flare gun"},
+			{103,108.5,"burned the place to the ground"},
+			{112,120.0,"smoke on the water"},
+			{120.5,124.0,"a fire in the sky"},
+			{128,136.0,"smoke on the water"},
+			{168,171.5,"they burned down the"},
+			{171,174.5,"gambling house"},
+			{175,184.0,"it died with an awful sound"},
+			{184.5,188.0,"funky claude was running"},
+			{188,190.0,"in and out"},
+			{191,199.0,"pulling kids out the ground"},
+			{201,206.5,"when it all was over"},
+			{207.5,216.0,"we had to find another place"},
+			{216.5,222.0,"but swiss time was running out"},
+			{223,226.0,"it seemed that we would"},
+			{226,228.5,"lose the race"},
+			{232,240.0,"smoke on the water"},
+			{240.5,244.0,"a fire in the sky"},
+			{248,256.0,"smoke on the water"},
+			{288,293.5,"we ended up at the grand hotel"},
+			{295,304.0,"it was empty, cold and bare"},
+			{304.5,307.0,"but with the rolling truck"},
+			{307,310.0,"stones thing just outside"},
+			{311,319.0,"making our music there"},
+			{321,324.0,"with a few red lights and"},
+			{324,326.5,"a few old beds"},
+			{327.5,336.0,"we made a place to sweat"},
+			{336.5,340.0,"no matter what we"},
+			{340,342.0,"get out of this"},
+			{343,346.0,"i know, i know"},
+			{346,348.5,"we'll never forget"},
+			{352,360.0,"smoke on the water"},
+			{360.5,364.0,"a fire in the sky"},
+			{368,376.0,"smoke on the water"},
+		},
 		hsidx=3
 	},
 	{
@@ -347,6 +390,19 @@ function draw_song()
 		camera(0,0)
 	end
 
+	-- draw lyrics
+	local b=beat()
+	local lpos = 1
+	if s().lyrics != nil then
+		for i=1,#s().lyrics do
+			if lpos<=2 and b>=s().lyrics[i][1] and b<=s().lyrics[i][2] then
+				local w=print(s().lyrics[i][3],0,-20)
+				print(s().lyrics[i][3],63-w/2,-6+8*lpos,7-lpos)
+				lpos+=1
+			end
+		end
+	end
+
 	-- draw strings and pots
 	for i=0,4 do
 		line(45.5+9*i,20,29.4+17*i,117,13)
@@ -379,7 +435,6 @@ function draw_song()
 	rectfill(112,105-3*xs,115,105,12)
 
 	-- draw upcoming beats
-	local b=beat()
 	for bb=ceil(b),b+5 do
 		local y=ymap(bb-b)
 		if y<111 then

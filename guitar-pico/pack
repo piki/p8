@@ -21,10 +21,14 @@ class Note < Struct.new(:beat, :pitch, :instrument, :string, :lineno)
 	end
 end
 
+class Lyric < Struct.new(:verse, :instrument, :beat, :endbeat, :words)
+end
+
 def main
-	notes = read(ARGF)
+	notes, lyrics = read(ARGF)
 	notes.sort_by!{|n| 1000*n.beat + n.pitch}
 	#notes.each {|n| p n}
+	lyrics.sort_by!{|l| 10000*l.beat + l.endbeat}
 
 	polyphony = 0
 	beat = -1
@@ -41,6 +45,11 @@ def main
 			beat = n.beat
 		end
 	end
+
+	lyrics.each do |l|
+		puts %Q{\t\t\t{#{l.beat},#{l.endbeat},"#{l.words}"},}
+	end
+	fail if lyrics.any? {|l| l.verse}
 		
 	beat = 0
 	print '"'
@@ -56,6 +65,7 @@ def read(fp)
 	beat = 0
 	octave = 2
 	ret = []
+	lyrics = []
 	lineno = 0
 	instrument = nil
 	repeat_start = repeat_count = repeat_beat = nil
@@ -87,6 +97,12 @@ def read(fp)
 					ret << Note.new(beat, get_pitch(note.downcase, octave), instrument, strings.shift, lineno)
 				end
 				beat += length
+			when /^r \s+ ([0-9](?:\.[0-9])?)$/xi
+				length = $1.to_f
+				beat += length
+			when /^lyrics \s+ (?:t(\d+) \s+)? ([0-9]+(?:\.[0-9]+)?) \s+ (.*)$/xi
+				fail "line #{lineno}: lyrics line can't exceed 31 characters" if $3.size > 31
+				lyrics << Lyric.new($1&.to_i, instrument, beat, beat+$2.to_f, $3)
 			when /^repeat \s+ (\d+) \s* {$/xi
 				fail "line #{lineno}: nested repeats are not allowed" if repeat_start || repeat_count
 				repeat_start = ret.size
@@ -96,23 +112,34 @@ def read(fp)
 			when /^}$/
 				repeat_end_beat = beat
 				ret += (1..repeat_count-1).map{|i|
-					puts "append i=#{i} range=#{repeat_start}..#{ret.size-1} beats=#{repeat_beat}..#{repeat_end_beat}"
 					ret[repeat_start..-1].map{|n|
 						n = n.dup
 						n.beat += i*(repeat_end_beat - repeat_beat)
 						n
 					}
 				}.flatten
+
+				new_lyrics = lyrics.select {|l| l.instrument != instrument || l.beat < repeat_beat}
+				puts "#{new_lyrics.size} lyrics saved"
+				lyrics = lyrics.select {|l| l.instrument == instrument && l.beat >= repeat_beat}
+				puts "#{lyrics.size} lyrics to filter"
+				(1..repeat_count).each do |i|
+					lyrics.each do |lyric|
+						if (lyric.verse.nil? || lyric.verse==i) && lyric.beat >= repeat_beat
+							new_lyrics << Lyric.new(nil, lyric.instrument, lyric.beat+(i-1)*(repeat_end_beat-repeat_beat),
+								lyric.endbeat+(i-1)*(repeat_end_beat-repeat_beat), lyric.words)
+						end
+					end
+				end
+				lyrics = new_lyrics
+				puts "#{lyrics.size} lyrics result"
 				beat += (repeat_count - 1)*(repeat_end_beat - repeat_beat)
 				repeat_start = repeat_count = repeat_beat = nil
-			when /^r \s+ ([0-9](?:\.[0-9])?)$/xi
-				length = $1.to_f
-				beat += length
 			else
 				fail "line #{lineno}: invalid '#{line}'"
 		end
 	end
-	ret
+	return ret, lyrics
 end
 
 PITCH = { 'c'=>0, 'd'=>2, 'e'=>4, 'f'=>5, 'g'=>7, 'a'=>9, 'b'=>11 }
