@@ -344,9 +344,6 @@ function draw_song()
 	-- draw score, multipler, and streak
 	print(sfmt(score),0,90,9)
 	print(mult().."x",4,99,9)
---	for i=1,xs do
---		print(chr(127),108-1*i,113-5*i,12)
---	end
 	rect(111,74,116,106,1)
 	rectfill(112,105-3*xs,115,105,12)
 
