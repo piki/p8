@@ -247,7 +247,7 @@ function handle_key(k)
 	end
 
 	score+=5*mult()
-	pot_anim[n(p).string]=t()+0.4
+	pot_anim[n(p).string]=t()+0.5
 	wnmsg=nil
 	if n(p).beat!=last_streak_beat then
 		streak+=1
