@@ -167,6 +167,7 @@ function update_title()
 	end
 end
 
+arcade_keymap={i=1,k=2,j=3,l=4,w=5}
 function update_song()
 	b=beat()
 	if flr(b)!=lastbeat then
@@ -190,7 +191,7 @@ function update_song()
 
 	while stat(30) do
 		local k=stat(31)
-		k=tonum(k)
+		k=tonum(k) or arcade_keymap[k]
 		if k!=nil and k>=1 and k<=5 then
 			handle_key(k)
 		end
@@ -395,6 +396,7 @@ function shadow()
 	end
 end
 
+arcade_scanmap={12,14,13,15,26}
 function draw_song()
 	cls()
 	if shake>0 then
@@ -428,7 +430,7 @@ function draw_song()
 		line(45.5+9*i,20,29.4+17*i,117,13)
 		line(46.5+9*i,20,30.4+17*i,117,5)
 		local dy=0
-		if stat(28,30+i) then
+		if stat(28,30+i) or stat(28,arcade_scanmap[i+1]) then
 			dy=2
 		end
 		cmap(i+1,"ps")
