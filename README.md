@@ -1,0 +1,19 @@
+Two little projects for the [pico-8](https://www.lexaloffle.com/pico-8.php) fantasy retro console:
+
+## Bad Apple
+
+This is [Bad Apple](https://www.youtube.com/watch?v=FtutLA63Cp8), encoded
+at 16x16 and 30fps.  It's based on JWinslow23's
+[version](https://www.lexaloffle.com/bbs/?pid=62417#p) and borrows his
+excellent music track.  I've used temporal compression to get 30fps
+instead of the original 3.75fps.  The entire 3m17s video fits in 60KB of
+code, or about 9 bytes per frame.  The compressor is included in the
+source.
+
+## Guitar Pico
+
+It's a Guitar Hero clone.  It comes with three songs.
+
+![](img/gh_2.png)
+
+![](img/gh_7.png)
