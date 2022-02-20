@@ -376,12 +376,24 @@ function lprint(str,x,y)
 	print(str,x,y,7)
 end
 
+xpal={
+	    1,  2,  3,
+	4,  8,  9,  10,
+	11, 12, 135,136,
+	137,139,140,5,
+	0
+}
 color={
-	{main=11, ps=3, ns=3, hi=7},
-	{main=8,  ps=2, ns=2, hi=15},
-	{main=10, ps=4, ns=9, hi=7},
-	{main=12, ps=1, ns=1, hi=7},
-	{main=9,  ps=4, ns=4, hi=10}
+	-- green: 139, 3, 3, 11
+	{main=13, ps=3, ns=3, hi=8},
+	-- red: 136, 2, 2, 8
+	{main=11,  ps=2, ns=2, hi=5},
+	-- yellow: 10, 4, 9, 135
+	{main=7, ps=4, ns=6, hi=10},
+	-- blue: 140, 1, 1, 12
+	{main=14, ps=1, ns=1, hi=9},
+	-- orange: 137, 4, 4, 9
+	{main=12,  ps=4, ns=4, hi=6}
 }
 
 function cmap(n,s)
@@ -399,6 +411,7 @@ end
 arcade_scanmap={12,14,13,15,26}
 function draw_song()
 	cls()
+
 	if shake>0 then
 		camera(rnd(2*shake)-shake,rnd(2*shake)-shake)
 		shake-=1
@@ -417,7 +430,7 @@ function draw_song()
 				lpos+=1
 			elseif lpos==2 and b>=s().lyrics[i][1]-2 and b<=s().lyrics[i][2]+0.5 then
 				local w=print(s().lyrics[i][3],0,-20)
-				print(s().lyrics[i][3],63-w/2,-6+8*lpos,5)
+				print(s().lyrics[i][3],63-w/2,-6+8*lpos,4)
 				lpos+=1
 			elseif lpos>2 then
 				break
@@ -427,8 +440,8 @@ function draw_song()
 
 	-- draw strings and pots
 	for i=0,4 do
-		line(45.5+9*i,20,29.4+17*i,117,13)
-		line(46.5+9*i,20,30.4+17*i,117,5)
+		line(45.5+9*i,20,29.4+17*i,117,15)
+		line(46.5+9*i,20,30.4+17*i,117,1)
 		local dy=0
 		if stat(28,30+i) or stat(28,arcade_scanmap[i+1]) then
 			dy=2
@@ -449,10 +462,10 @@ function draw_song()
 	end
 
 	-- draw score, multipler, and streak
-	print(sfmt(score),0,90,9)
-	print(mult().."x",4,99,9)
+	print(sfmt(score),0,90,6)
+	print(mult().."x",4,99,6)
 	rect(111,74,116,106,1)
-	rectfill(112,105-3*xs,115,105,12)
+	rectfill(112,105-3*xs,115,105,9)
 
 	-- draw upcoming beats
 	for bb=ceil(b),b+5 do
@@ -460,7 +473,7 @@ function draw_song()
 		if y<111 then
 		local x=xmap(y,0)
 		local f=fmap(y)-0.25
-			line(x,y+f*5,128-x,y+f*5,5)
+			line(x,y+f*5,128-x,y+f*5,15)
 --			print(bb,132-x,y+f*5-2,7)
 		end
 	end
@@ -481,6 +494,7 @@ function draw_song()
 		p += 1
 	end
 	pal()
+	pal(xpal,1)
 end
 
 function fmap(y)
@@ -531,8 +545,8 @@ d7d7d7d0006700700066607000706607066667000000000007fa99900fe822209999999999d99999
 dd777dd0076d6600066666000766666006666660a00000a0faaaaa99e8888822999999999d0d9999999999999999999999999999999999999999999999999999
 0dd7dd0006ddd660766dd67066d66d66766dd666aa0a0aa0aaaaaaa98888888299ddddddd0d0ddddddd999999999999999999999999999999999999999999999
 dd777dd066dddd6666dddd66666ddd6666ddd666aaaaaaa00aaaaa900888882099d000000d6d0000000d99999999999999999999999999999999999999999999
-d7d7d7d06ddd5d6666d5dd6666dd5d6666d5dd66ab8ac9a0000000000000000099d0d66667777776d0d999999900000000000009090000000d99999999999999
-0ddddd0066d5dd6666dd5d666dd5ddd66ddd5dd6aaaaaaa0000000000000000099d0d6777dd7776d0d999999900dddddddddddd0d0666666d00d999999999999
+d7d7d7d06ddd0d6666d0dd6666dd0d6666d0dd66ab8ac9a0000000000000000099d0d66667777776d0d999999900000000000009090000000d99999999999999
+0ddddd0066d0dd6666dd0d666dd0ddd66ddd0dd6aaaaaaa0000000000000000099d0d6777dd7776d0d999999900dddddddddddd0d0666666d00d999999999999
 00776766666666000077777777777700007767666666660000767666dddddd0099d0d677d007776d0000dddd00d6666766666d0d7d06776677d0d99999999999
 076dddddddddd660077dddddddddd77007655555555556600766666666666dd099d0d677d007776d666d0000000000676dddd0d777d06760d67d099999999999
 76d6666666666d6677dddddddddddd777655555555555566766666666666666d99d0d677d007776d677d0d6660ddd0676d000d7d76d0676006760d9999999999
