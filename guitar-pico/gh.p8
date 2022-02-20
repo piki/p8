@@ -138,7 +138,7 @@ function start_song(_song)
 	menuitem(1,"quit song",function() stop("title") end)
 	menuitem(2,"restart song",function() stop("title") start_song(song) end)
 
---	start_time-=62*60/s().tempo
+--	start_time-=95*60/s().tempo
 end
 
 function _update60()
@@ -288,9 +288,10 @@ function _draw()
 	if screen=="title" then
 		draw_title()
 	elseif screen=="score" then
+		draw_song(bwtheme,true)
 		draw_score()
 	else
-		draw_song()
+		draw_song(theme,false)
 	end
 end
 
@@ -328,6 +329,7 @@ function draw_score()
 		end
 	end
 
+	rect(18,33,110,97,0)
 	rect(20,35,109,96,5)
 	rect(19,34,108,95,10)
 	rectfill(20,35,107,94,9)
@@ -395,11 +397,26 @@ color={
 	-- orange: 137, 4, 4, 9
 	{main=12,  ps=4, ns=4, hi=6}
 }
+theme={
+	n=color,
+	string={15,1},
+	lyric={6,4},
+	score=6,
+	streak={9,1}
+}
+bwnote={main=5,ps=0,ns=0,hi=6}
+bwtheme={
+	n={bwnote,bwnote,bwnote,bwnote,bwnote},
+	string={5,0},
+	lyric={6,5},
+	score=5,
+	streak={6,5}
+}
 
-function cmap(n,s)
-	pal(7,color[n].hi,0)
-	pal(6,color[n].main,0)
-	pal(13,color[n][s],0)
+function cmap(c,s)
+	pal(7,c.hi,0)
+	pal(6,c.main,0)
+	pal(13,c[s],0)
 end
 
 function shadow()
@@ -409,7 +426,7 @@ function shadow()
 end
 
 arcade_scanmap={12,14,13,15,26}
-function draw_song()
+function draw_song(th,freeze)
 	cls()
 
 	if shake>0 then
@@ -421,16 +438,19 @@ function draw_song()
 
 	-- draw lyrics
 	local b=beat()
+	if freeze then
+		b=0
+	end
 	local lpos = 1
 	if s().lyrics != nil then
 		for i=1,#s().lyrics do
 			if lpos==1 and b>=s().lyrics[i][1]-0.5 and b<=s().lyrics[i][2]+0.5 then
 				local w=print(s().lyrics[i][3],0,-20)
-				print(s().lyrics[i][3],63-w/2,-6+8*lpos,6)
+				print(s().lyrics[i][3],63-w/2,-6+8*lpos,th.lyric[1])
 				lpos+=1
 			elseif lpos==2 and b>=s().lyrics[i][1]-2 and b<=s().lyrics[i][2]+0.5 then
 				local w=print(s().lyrics[i][3],0,-20)
-				print(s().lyrics[i][3],63-w/2,-6+8*lpos,4)
+				print(s().lyrics[i][3],63-w/2,-6+8*lpos,th.lyric[2])
 				lpos+=1
 			elseif lpos>2 then
 				break
@@ -440,13 +460,13 @@ function draw_song()
 
 	-- draw strings and pots
 	for i=0,4 do
-		line(45.5+9*i,20,29.4+17*i,117,15)
-		line(46.5+9*i,20,30.4+17*i,117,1)
+		line(45.5+9*i,20,29.4+17*i,117,th.string[1])
+		line(46.5+9*i,20,30.4+17*i,117,th.string[2])
 		local dy=0
 		if stat(28,30+i) or stat(28,arcade_scanmap[i+1]) then
 			dy=2
 		end
-		cmap(i+1,"ps")
+		cmap(th.n[i+1],"ps")
 		spr(16,22+17*i,115-dy)
 		spr(17,30+17*i,115-dy)
 		if (pot_anim[i+1] or 0)>t() then
@@ -462,10 +482,10 @@ function draw_song()
 	end
 
 	-- draw score, multipler, and streak
-	print(sfmt(score),0,90,6)
-	print(mult().."x",4,99,6)
-	rect(111,74,116,106,1)
-	rectfill(112,105-3*xs,115,105,9)
+	print(sfmt(score),0,90,th.score)
+	print(mult().."x",4,99,th.score)
+	rect(111,74,116,106,th.streak[2])
+	rectfill(112,105-3*xs,115,105,th.streak[1])
 
 	-- draw upcoming beats
 	for bb=ceil(b),b+5 do
@@ -473,7 +493,7 @@ function draw_song()
 		if y<111 then
 		local x=xmap(y,0)
 		local f=fmap(y)-0.25
-			line(x,y+f*5,128-x,y+f*5,15)
+			line(x,y+f*5,128-x,y+f*5,th.string[1])
 --			print(bb,132-x,y+f*5-2,7)
 		end
 	end
@@ -486,7 +506,7 @@ function draw_song()
 			local y=ymap(n(p).beat-b)
 			local f=fmap(y)
 			local x=xmap(y,s-1)
-			cmap(s,"ns")
+			cmap(th.n[s],"ns")
 			sspr(48,8,16,6,
 				x+s/3-f*7.5,y,
 				1+f*15,ceil(f*5))
