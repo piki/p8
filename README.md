@@ -12,7 +12,14 @@ source.
 
 ## Guitar Pico
 
-It's a Guitar Hero clone.  It comes with three songs.
+It's a Guitar Hero clone.  It comes with three songs.  The fret keys are
+`1`, `2`, `3`, `4`, and `5`.  On an arcade cabinet with an
+[IPAC](https://www.ultimarc.com/control-interfaces/i-pacs/i-pac2/)
+controller, the frets are `i`, `k`, `j`, `l`, `w`, whichever buttons you
+have those wired to.  You can change the variable `arcade_scanmap` in
+`gh.p8` to the [SDL
+scancodes](https://github.com/libsdl-org/SDL/blob/main/include/SDL3/SDL_scancode.h)
+for any other keys or mapped buttons you prefer.
 
 ![](img/gh_2.png)
 
